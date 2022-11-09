@@ -5,7 +5,8 @@ namespace FashionShop.Data.Entities
 {
     public class AppUser : IdentityUser<Guid>
     {
-        public string  FullName{ get; set; }
+        public string  FirstName{ get; set; }
+        public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public List<Cart> Carts { get; set; }
 

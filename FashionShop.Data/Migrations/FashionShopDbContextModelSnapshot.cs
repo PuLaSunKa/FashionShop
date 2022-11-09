@@ -68,7 +68,13 @@ namespace FashionShop.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(true)

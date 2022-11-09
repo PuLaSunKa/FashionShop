@@ -1,13 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup> 
 
   <ItemGroup>
-    <Folder Include="Catalog\Products\" />
+    <ProjectReference Include="..\FashionShop.Data\FashionShop.Data.csproj" />
+    <ProjectReference Include="..\FashionShop.Utilities\FashionShop.Utilities.csproj" />
+    <ProjectReference Include="..\FashionShop.ViewModels\FashionShop.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

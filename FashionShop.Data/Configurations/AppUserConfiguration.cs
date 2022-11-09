@@ -14,7 +14,8 @@ namespace FashionShop.Data.Configurations
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.ToTable("AppUsers");
-            builder.Property(x => x.FullName).IsRequired().HasMaxLength(200).IsUnicode(true);
+            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(200).IsUnicode(true);
+            builder.Property(x => x.LastName).IsRequired().HasMaxLength(200).IsUnicode(true);
         }
     }
 }
