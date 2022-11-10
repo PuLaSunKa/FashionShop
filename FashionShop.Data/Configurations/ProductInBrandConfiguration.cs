@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FashionShop.Data.Configurations
 {
-    internal class ProductInBrandConfiguration : IEntityTypeConfiguration<ProductInBrand>
+    public class ProductInBrandConfiguration : IEntityTypeConfiguration<ProductInBrand>
     {
         public void Configure(EntityTypeBuilder<ProductInBrand> builder)
         {

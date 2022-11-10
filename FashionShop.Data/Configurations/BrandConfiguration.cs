@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FashionShop.Data.Configurations
 {
-    internal class BrandConfiguration : IEntityTypeConfiguration<Brand>
+    public class BrandConfiguration : IEntityTypeConfiguration<Brand>
     {
         public void Configure(EntityTypeBuilder<Brand> builder)
         {
@@ -20,8 +20,9 @@ namespace FashionShop.Data.Configurations
 
             builder.Property(x => x.Id).UseIdentityColumn();
 
-
             builder.Property(x => x.Status).HasDefaultValue(Status.Active);
+
+            builder.Property(x => x.Image).HasMaxLength(200).IsRequired();
         }
     }
 }

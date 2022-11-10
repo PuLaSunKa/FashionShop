@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FashionShop.Data.Configurations
 {
@@ -32,6 +30,7 @@ namespace FashionShop.Data.Configurations
             builder.Property(x => x.ShipPhoneNumber).IsRequired().HasMaxLength(200);
 
             builder.HasOne(x => x.AppUser).WithMany(x => x.Orders).HasForeignKey(x => x.UserId);
+
         }
     }
 }
