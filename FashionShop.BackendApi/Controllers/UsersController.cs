@@ -1,13 +1,15 @@
-﻿using FashionShop.Application.System.Users;
+﻿using System;
+using System.Threading.Tasks;
+using FashionShop.Application.System.Users;
 using FashionShop.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FashionShop.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -19,7 +21,7 @@ namespace FashionShop.BackendApi.Controllers
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
+        public async Task<IActionResult> Authenticate([FromBody]LoginRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -35,7 +37,7 @@ namespace FashionShop.BackendApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody]RegisterRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -50,7 +52,7 @@ namespace FashionShop.BackendApi.Controllers
 
         //PUT: http://localhost/api/users/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UserUpdateRequest request)
+        public async Task<IActionResult> Update(Guid id, [FromBody]UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -64,7 +66,7 @@ namespace FashionShop.BackendApi.Controllers
         }
 
         [HttpPut("{id}/roles")]
-        public async Task<IActionResult> RoleAssign(Guid id, [FromBody] RoleAssignRequest request)
+        public async Task<IActionResult> RoleAssign(Guid id, [FromBody]RoleAssignRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -79,10 +81,10 @@ namespace FashionShop.BackendApi.Controllers
 
         //http://localhost/api/users/paging?pageIndex=1&pageSize=10&keyword=
         [HttpGet("paging")]
-        public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
+        public async Task<IActionResult> GetAllPaging([FromQuery]GetUserPagingRequest request)
         {
-            var users = await _userService.GetUsersPaging(request);
-            return Ok(users);
+            var products = await _userService.GetUsersPaging(request);
+            return Ok(products);
         }
 
         [HttpGet("{id}")]

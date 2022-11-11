@@ -1,5 +1,6 @@
 ﻿using FashionShop.Data.Configurations;
 using FashionShop.Data.Entities;
+using FashionShop.Data.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,8 @@ namespace FashionShop.Data.EF
 
             modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
+
+            modelBuilder.Seed();
         }
 
         public DbSet<Product> Products { get; set; }

@@ -10,22 +10,23 @@ namespace FashionShop.BackendApi.Controllers
     {
         private readonly IBrandService _brandService;
 
-        public BrandsController(IBrandService brandService)
+        public BrandsController(
+            IBrandService brandService)
         {
             _brandService = brandService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string languageId)
         {
-            var brands = await _brandService.GetAll();
-            return Ok(brands);
+            var products = await _brandService.GetAll(languageId);
+            return Ok(products);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id}/{languageId}")]
+        public async Task<IActionResult> GetById(string languageId, int id)
         {
-            var brand = await _brandService.GetById(id);
+            var brand = await _brandService.GetById(languageId, id);
             return Ok(brand);
         }
     }

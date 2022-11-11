@@ -1,12 +1,9 @@
 ﻿using FashionShop.ViewModels.Catalog.ProductImages;
 using FashionShop.ViewModels.Catalog.Products;
 using FashionShop.ViewModels.Common;
-using System;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ProductUpdateRequest = FashionShop.ViewModels.Catalog.Products.ProductUpdateRequest;
 
 namespace FashionShop.Application.Catalog.Products
 {
@@ -18,11 +15,13 @@ namespace FashionShop.Application.Catalog.Products
 
         Task<int> Delete(int productId);
 
-        Task<ProductVm> GetById(int productId);
+        Task<ProductVm> GetById(int productId, string languageId);
 
         Task<bool> UpdatePrice(int productId, decimal newPrice);
 
         Task<bool> UpdateStock(int productId, int addedQuantity);
+
+        Task AddViewcount(int productId);
 
         Task<PagedResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request);
 
@@ -36,12 +35,12 @@ namespace FashionShop.Application.Catalog.Products
 
         Task<List<ProductImageViewModel>> GetListImages(int productId);
 
-        Task<PagedResult<ProductVm>> GetAllByCategoryId(GetPublicProductPagingRequest request);
+        Task<PagedResult<ProductVm>> GetAllByCategoryId(string languageId, GetPublicProductPagingRequest request);
 
         Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
 
-        Task<List<ProductVm>> GetFeaturedProducts( int take);
+        Task<List<ProductVm>> GetFeaturedProducts(string languageId, int take);
 
-        Task<List<ProductVm>> GetLatestProducts( int take);
+        Task<List<ProductVm>> GetLatestProducts(string languageId, int take);
     }
 }

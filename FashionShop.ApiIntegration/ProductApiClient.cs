@@ -1,5 +1,4 @@
-﻿using FashionShop.ApiIntegration;
-using FashionShop.Utilities.Constants;
+﻿using FashionShop.Utilities.Constants;
 using FashionShop.ViewModels.Catalog.Products;
 using FashionShop.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +38,7 @@ namespace FashionShop.ApiIntegration
                 .Session
                 .GetString(SystemConstants.AppSettings.Token);
 
+            var languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
@@ -57,10 +57,18 @@ namespace FashionShop.ApiIntegration
                 requestContent.Add(bytes, "thumbnailImage", request.ThumbnailImage.FileName);
             }
 
-            requestContent.Add(new StringContent(request.Price.ToString()), "price");            
-            requestContent.Add(new StringContent(request.QuantityInStock.ToString()), "quantityInStock");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.ProductName) ? "" : request.ProductName.ToString()), "productName");
+            requestContent.Add(new StringContent(request.Price.ToString()), "price");
+            requestContent.Add(new StringContent(request.OriginalPrice.ToString()), "originalPrice");
+            requestContent.Add(new StringContent(request.Stock.ToString()), "stock");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Name) ? "" : request.Name.ToString()), "name");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description) ? "" : request.Description.ToString()), "description");
+
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Details) ? "" : request.Details.ToString()), "details");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoDescription) ? "" : request.SeoDescription.ToString()), "seoDescription");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoTitle) ? "" : request.SeoTitle.ToString()), "seoTitle");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoAlias) ? "" : request.SeoAlias.ToString()), "seoAlias");
+            requestContent.Add(new StringContent(languageId), "languageId");
+
             var response = await client.PostAsync($"/api/products/", requestContent);
             return response.IsSuccessStatusCode;
         }
@@ -71,6 +79,8 @@ namespace FashionShop.ApiIntegration
                 .HttpContext
                 .Session
                 .GetString(SystemConstants.AppSettings.Token);
+
+            var languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
@@ -91,10 +101,14 @@ namespace FashionShop.ApiIntegration
 
             //requestContent.Add(new StringContent(request.Id.ToString()), "id");
 
-            requestContent.Add(new StringContent(request.Price.ToString()), "price");
-            requestContent.Add(new StringContent(request.QuantityInStock.ToString()), "quantityInStock");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.ProductName) ? "" : request.ProductName.ToString()), "productName");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Name) ? "" : request.Name.ToString()), "name");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description) ? "" : request.Description.ToString()), "description");
+
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Details) ? "" : request.Details.ToString()), "details");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoDescription) ? "" : request.SeoDescription.ToString()), "seoDescription");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoTitle) ? "" : request.SeoTitle.ToString()), "seoTitle");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.SeoAlias) ? "" : request.SeoAlias.ToString()), "seoAlias");
+            requestContent.Add(new StringContent(languageId), "languageId");
 
             var response = await client.PutAsync($"/api/products/" + request.Id, requestContent);
             return response.IsSuccessStatusCode;
@@ -105,8 +119,7 @@ namespace FashionShop.ApiIntegration
             var data = await GetAsync<PagedResult<ProductVm>>(
                 $"/api/products/paging?pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}" +
-                $"&keyword={request.Keyword}" +
-                $"&categoryId={request.CategoryId}");
+                $"&keyword={request.Keyword}&languageId={request.LanguageId}&categoryId={request.CategoryId}");
 
             return data;
         }
@@ -130,22 +143,22 @@ namespace FashionShop.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
         }
 
-        public async Task<ProductVm> GetById(int id)
+        public async Task<ProductVm> GetById(int id, string languageId)
         {
-            var data = await GetAsync<ProductVm>($"/api/products/{id}");
+            var data = await GetAsync<ProductVm>($"/api/products/{id}/{languageId}");
 
             return data;
         }
 
-        public async Task<List<ProductVm>> GetFeaturedProducts( int take)
+        public async Task<List<ProductVm>> GetFeaturedProducts(string languageId, int take)
         {
-            var data = await GetListAsync<ProductVm>($"/api/products/featured/{take}");
+            var data = await GetListAsync<ProductVm>($"/api/products/featured/{languageId}/{take}");
             return data;
         }
 
-        public async Task<List<ProductVm>> GetLatestProducts( int take)
+        public async Task<List<ProductVm>> GetLatestProducts(string languageId, int take)
         {
-            var data = await GetListAsync<ProductVm>($"/api/products/latest/{take}");
+            var data = await GetListAsync<ProductVm>($"/api/products/latest/{languageId}/{take}");
             return data;
         }
 

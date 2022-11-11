@@ -22,7 +22,7 @@ namespace FashionShop.Data.Configurations
 
             builder.Property(x => x.Status).HasDefaultValue(Status.Active);
 
-            builder.Property(x => x.Image).HasMaxLength(200).IsRequired();
+            builder.Property(x => x.Image).HasMaxLength(200);
         }
     }
 }

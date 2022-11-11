@@ -1,5 +1,4 @@
-﻿using FahionShop.Application.Catalog.Categories;
-using FashionShop.Data.EF;
+﻿using FashionShop.Data.EF;
 using FashionShop.ViewModels.Catalog.Brands;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,27 +12,33 @@ namespace FashionShop.Application.Catalog.Brands
         {
             _context = context;
         }
-
-        public async Task<List<BrandVm>> GetAll()
-        {
-            var query = from b in _context.Brands
-                        select new { b };
-            return await query.Select(x => new BrandVm()
-            {
-                Id = x.b.Id,
-                BrandName = x.b.BrandName,
-            }).ToListAsync();
-        }
-
-        public async Task<BrandVm> GetById(int id)
+        public async Task<List<BrandVm>> GetAll(string languageId)
         {
             var query = from c in _context.Brands
-                        where c.Id == id
-                        select new { c };
+                        join ct in _context.BrandTranslations on c.Id equals ct.BrandId
+                        where ct.LanguageId == languageId
+                        select new { c, ct };
             return await query.Select(x => new BrandVm()
             {
                 Id = x.c.Id,
-                BrandName = x.c.BrandName
+                Name = x.ct.Name,
+                ParentId = x.c.ParentId,
+                Image = x.c.Image
+            }).ToListAsync();
+        }
+
+        public async Task<BrandVm> GetById(string languageId, int id)
+        {
+            var query = from c in _context.Brands
+                        join ct in _context.BrandTranslations on c.Id equals ct.BrandId
+                        where ct.LanguageId == languageId && c.Id == id
+                        select new { c, ct };
+            return await query.Select(x => new BrandVm()
+            {
+                Id = x.c.Id,
+                Name = x.ct.Name,
+                ParentId = x.c.ParentId,
+                Image = x.c.Image
             }).FirstOrDefaultAsync();
         }
     }
