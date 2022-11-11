@@ -1,4 +1,7 @@
-﻿using TransactionStatus = FashionShop.Data.Enums.TransactionStatus;
+﻿using FashionShop.Data.Enums;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace FashionShop.Data.Entities
 {
@@ -17,5 +20,6 @@ namespace FashionShop.Data.Entities
         public Guid UserId { get; set; }
 
         public AppUser AppUser { get; set; }
+
     }
 }

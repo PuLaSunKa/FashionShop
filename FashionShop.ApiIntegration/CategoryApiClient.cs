@@ -20,14 +20,14 @@ namespace FashionShop.ApiIntegration
         {
         }
 
-        public async Task<List<CategoryVm>> GetAll()
+        public async Task<List<CategoryVm>> GetAll(string languageId)
         {
-            return await GetListAsync<CategoryVm>("/api/categories?");
+            return await GetListAsync<CategoryVm>("/api/categories?languageId=" + languageId);
         }
 
-        public async Task<CategoryVm> GetById( int id)
+        public async Task<CategoryVm> GetById(string languageId, int id)
         {
-            return await GetAsync<CategoryVm>($"/api/categories/{id}");
+            return await GetAsync<CategoryVm>($"/api/categories/{id}/{languageId}");
         }
     }
 }

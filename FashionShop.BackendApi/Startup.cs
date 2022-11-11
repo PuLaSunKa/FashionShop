@@ -1,10 +1,11 @@
-﻿using FahionShop.Application.Catalog.Categories;
-using FashionShop.Application.Catalog.Brands;
+﻿using FashionShop.Application.Catalog.Brands;
+using FashionShop.Application.Catalog.Categories;
 using FashionShop.Application.Catalog.Products;
 using FashionShop.Application.Common;
+using FashionShop.Application.System.Languages;
 using FashionShop.Application.System.Roles;
 using FashionShop.Application.System.Users;
-using FashionShop.Application.Utilities.Posts;
+using FashionShop.Application.Utilities.Slides;
 using FashionShop.Data.EF;
 using FashionShop.Data.Entities;
 using FashionShop.Utilities.Constants;
@@ -37,22 +38,30 @@ namespace FashionShop.BackendApi
                .AddDefaultTokenProviders();
             //Declare DI
             services.AddTransient<IStorageService, FileStorageService>();
+
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IBrandService, BrandService>();
-            services.AddTransient<IRoleService, RoleService>();
-            services.AddTransient<IPostService, PostService>();
-            services.AddTransient<IUserService, UserService>();
 
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.AddTransient<ILanguageService, LanguageService>();
+            services.AddTransient<ISlideService, SlideService>();
+
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IUserService, UserService>();
+
+            //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
+            //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+
             services.AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>()); 
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger FashionShop", Version = "v1" });
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
@@ -82,6 +91,7 @@ namespace FashionShop.BackendApi
                       }
                     });
             });
+
             string issuer = Configuration.GetValue<string>("Tokens:Issuer");
             string signingKey = Configuration.GetValue<string>("Tokens:Key");
             byte[] signingKeyBytes = System.Text.Encoding.UTF8.GetBytes(signingKey);
@@ -124,6 +134,7 @@ namespace FashionShop.BackendApi
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseAuthentication();
             app.UseRouting();
 
@@ -133,7 +144,7 @@ namespace FashionShop.BackendApi
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger FashionShop V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger eShopSolution V1");
             });
 
             app.UseEndpoints(endpoints =>

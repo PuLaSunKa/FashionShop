@@ -1,14 +1,17 @@
-﻿using FashionShop.Application.System.Users;
-using FashionShop.Data.Entities;
+﻿using FashionShop.Data.Entities;
 using FashionShop.ViewModels.Common;
 using FashionShop.ViewModels.System.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FashionShop.Application.System.Users
 {
@@ -87,7 +90,7 @@ namespace FashionShop.Application.System.Users
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 FirstName = user.FirstName,
-                DateOfBirth = user.DateOfBirth,
+                Dob = user.Dob,
                 Id = user.Id,
                 LastName = user.LastName,
                 UserName = user.UserName,
@@ -145,7 +148,7 @@ namespace FashionShop.Application.System.Users
 
             user = new AppUser()
             {
-                DateOfBirth = request.DateOfBirth,
+                Dob = request.Dob,
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
@@ -196,7 +199,7 @@ namespace FashionShop.Application.System.Users
                 return new ApiErrorResult<bool>("Emai đã tồn tại");
             }
             var user = await _userManager.FindByIdAsync(id.ToString());
-            user.DateOfBirth = request.DateOfBirth;
+            user.Dob = request.Dob;
             user.Email = request.Email;
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;

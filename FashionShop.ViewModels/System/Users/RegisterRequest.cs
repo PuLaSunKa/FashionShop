@@ -15,7 +15,7 @@ namespace FashionShop.ViewModels.System.Users
 
         [Display(Name = "Ngày sinh")]
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime Dob { get; set; }
 
         [Display(Name = "Hòm thư")]
         public string Email { get; set; }

@@ -1,4 +1,7 @@
 ﻿using FashionShop.ViewModels.Common;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace FashionShop.ViewModels.Catalog.Products
 {
