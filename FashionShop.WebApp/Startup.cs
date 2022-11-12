@@ -1,5 +1,7 @@
 ﻿using FashionShop.ApiIntegration;
 using FashionShop.ViewModels.System.Users;
+using FashionShop.WebApp.LocalizationResources;
+using FluentValidation.AspNetCore;
 using LazZiya.ExpressLocalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
