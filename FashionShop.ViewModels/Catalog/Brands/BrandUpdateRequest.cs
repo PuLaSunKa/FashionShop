@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace FashionShop.ViewModels.Catalog.Brands
 {
-    public class BrandVm
+    internal class BrandUpdateRequest
     {
-        public int Id { get; set; }
-
-        public string? Name { get; set; }
     }
 }

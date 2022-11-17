@@ -22,8 +22,6 @@ namespace FashionShop.Application.Catalog.Brands
             {
                 Id = x.c.Id,
                 Name = x.ct.Name,
-                ParentId = x.c.ParentId,
-                Image = x.c.Image
             }).ToListAsync();
         }
 
@@ -36,9 +34,7 @@ namespace FashionShop.Application.Catalog.Brands
             return await query.Select(x => new BrandVm()
             {
                 Id = x.c.Id,
-                Name = x.ct.Name,
-                ParentId = x.c.ParentId,
-                Image = x.c.Image
+                Name = x.ct.Name
             }).FirstOrDefaultAsync();
         }
     }

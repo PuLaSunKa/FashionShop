@@ -71,9 +71,6 @@ namespace FashionShop.Application.Catalog.Products
                         Name = request.Name,
                         Description = request.Description,
                         Details = request.Details,
-                        SeoDescription = request.SeoDescription,
-                        SeoAlias = request.SeoAlias,
-                        SeoTitle = request.SeoTitle,
                         LanguageId = request.LanguageId
                     });
                 }
@@ -83,7 +80,6 @@ namespace FashionShop.Application.Catalog.Products
                     {
                         Name = SystemConstants.ProductConstants.NA,
                         Description = SystemConstants.ProductConstants.NA,
-                        SeoAlias = SystemConstants.ProductConstants.NA,
                         LanguageId = language.Id
                     });
                 }
@@ -171,9 +167,6 @@ namespace FashionShop.Application.Catalog.Products
                     LanguageId = x.pt.LanguageId,
                     OriginalPrice = x.p.OriginalPrice,
                     Price = x.p.Price,
-                    SeoAlias = x.pt.SeoAlias,
-                    SeoDescription = x.pt.SeoDescription,
-                    SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
                     ThumbnailImage = x.pi.ImagePath
@@ -213,10 +206,7 @@ namespace FashionShop.Application.Catalog.Products
                 Details = productTranslation != null ? productTranslation.Details : null,
                 Name = productTranslation != null ? productTranslation.Name : null,
                 OriginalPrice = product.OriginalPrice,
-                Price = product.Price,
-                SeoAlias = productTranslation != null ? productTranslation.SeoAlias : null,
-                SeoDescription = productTranslation != null ? productTranslation.SeoDescription : null,
-                SeoTitle = productTranslation != null ? productTranslation.SeoTitle : null,
+                Price = product.Price,               
                 Stock = product.Stock,
                 ViewCount = product.ViewCount,
                 Categories = categories,
@@ -279,9 +269,6 @@ namespace FashionShop.Application.Catalog.Products
             if (product == null || productTranslations == null) throw new FashionShopException($"Cannot find a product with id: {request.Id}");
 
             productTranslations.Name = request.Name;
-            productTranslations.SeoAlias = request.SeoAlias;
-            productTranslations.SeoDescription = request.SeoDescription;
-            productTranslations.SeoTitle = request.SeoTitle;
             productTranslations.Description = request.Description;
             productTranslations.Details = request.Details;
 
@@ -367,10 +354,7 @@ namespace FashionShop.Application.Catalog.Products
                     Details = x.pt.Details,
                     LanguageId = x.pt.LanguageId,
                     OriginalPrice = x.p.OriginalPrice,
-                    Price = x.p.Price,
-                    SeoAlias = x.pt.SeoAlias,
-                    SeoDescription = x.pt.SeoDescription,
-                    SeoTitle = x.pt.SeoTitle,
+                    Price = x.p.Price,     
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount
                 }).ToListAsync();
@@ -441,9 +425,6 @@ namespace FashionShop.Application.Catalog.Products
                     LanguageId = x.pt.LanguageId,
                     OriginalPrice = x.p.OriginalPrice,
                     Price = x.p.Price,
-                    SeoAlias = x.pt.SeoAlias,
-                    SeoDescription = x.pt.SeoDescription,
-                    SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
                     ThumbnailImage = x.pi.ImagePath
@@ -476,10 +457,7 @@ namespace FashionShop.Application.Catalog.Products
                     Details = x.pt.Details,
                     LanguageId = x.pt.LanguageId,
                     OriginalPrice = x.p.OriginalPrice,
-                    Price = x.p.Price,
-                    SeoAlias = x.pt.SeoAlias,
-                    SeoDescription = x.pt.SeoDescription,
-                    SeoTitle = x.pt.SeoTitle,
+                    Price = x.p.Price,  
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
                     ThumbnailImage = x.pi.ImagePath

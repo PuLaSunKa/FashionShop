@@ -121,9 +121,6 @@ namespace FashionShop.AdminApp.Controllers
                 Description = product.Description,
                 Details = product.Details,
                 Name = product.Name,
-                SeoAlias = product.SeoAlias,
-                SeoDescription = product.SeoDescription,
-                SeoTitle = product.SeoTitle
             };
             return View(editVm);
         }

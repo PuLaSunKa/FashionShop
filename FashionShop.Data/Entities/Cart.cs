@@ -14,7 +14,7 @@ namespace FashionShop.Data.Entities
 
         public Guid UserId { get; set; }
 
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
 
         public DateTime DateCreated { get; set; }
 

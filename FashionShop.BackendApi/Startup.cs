@@ -5,7 +5,6 @@ using FashionShop.Application.Common;
 using FashionShop.Application.System.Languages;
 using FashionShop.Application.System.Roles;
 using FashionShop.Application.System.Users;
-using FashionShop.Application.Utilities.Slides;
 using FashionShop.Data.EF;
 using FashionShop.Data.Entities;
 using FashionShop.Utilities.Constants;
@@ -47,7 +46,6 @@ namespace FashionShop.BackendApi
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<ILanguageService, LanguageService>();
-            services.AddTransient<ISlideService, SlideService>();
 
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
@@ -133,18 +131,18 @@ namespace FashionShop.BackendApi
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            
 
             app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseStaticFiles();
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger eShopSolution V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger FashionShop V1");
             });
 
             app.UseEndpoints(endpoints =>
@@ -152,6 +150,10 @@ namespace FashionShop.BackendApi
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Could not find anything");
             });
         }
     }

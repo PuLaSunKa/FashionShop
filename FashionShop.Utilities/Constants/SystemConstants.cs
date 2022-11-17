@@ -26,5 +26,9 @@ namespace FashionShop.Utilities.Constants
         {
             public const string NA = "N/A";
         }
+        public class CategoryConstants
+        {
+            public const string NA = "N/A";
+        }
     }
 }

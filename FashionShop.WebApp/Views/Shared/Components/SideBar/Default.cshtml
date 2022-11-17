@@ -11,34 +11,7 @@
             <span class="badge badge-warning pull-right">$155.00</span>
         </a>
     </div>
-    <ul id="sideManu" class="nav nav-tabs nav-stacked">
-        @{
-            var parents = Model.Where(x => x.ParentId == null);
-        }
-        @for (int index = 0; index < parents.Count(); index++)
-        {
-            var parent = parents.ElementAt(index);
-            var children = Model.Where(x => x.ParentId == parent.Id);
-            if (children.Any())
-            {
-                <li class="subMenu open">
-                    <a> @parent.Name</a>
-                    <ul>
-                        @foreach (var item in children)
-                        {
-                            <li><a class="active" href="/@culture/@_loc["categoryUrl"]/@item.Id"><i class="icon-chevron-right"></i>@item.Name </a></li>
-                        }
-                    </ul>
-                </li>
-            }
-            else
-            {
-                <li><a href="/@culture/@_loc["categoryUrl"]/@parent.Id">@parent.Name</a></li>
-            }
-
-        }
-    </ul>
-    <br />
+    
     @*<div class="thumbnail">
             <img src="/themes/images/products/panasonic.jpg" alt="Bootshop panasonoc New camera" />
             <div class="caption">
