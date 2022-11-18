@@ -68,7 +68,6 @@ namespace FashionShop.Application.Catalog.Categories
         public async Task<List<CategoryVm>> GetAll(string languageId)
         {
             var query = from c in _context.Categories
-
                         join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId
                         where ct.LanguageId == languageId
                         select new { c, ct };
