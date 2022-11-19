@@ -9,5 +9,6 @@ namespace FashionShop.Application.System.Roles
     public interface IRoleService
     {
         Task<List<RoleVm>> GetAll();
+
     }
 }

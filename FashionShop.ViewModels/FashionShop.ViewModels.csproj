@@ -15,4 +15,8 @@
     <ProjectReference Include="..\FashionShop.Data\FashionShop.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+
 </Project>

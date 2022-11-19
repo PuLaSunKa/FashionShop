@@ -11,6 +11,7 @@ using FashionShop.Utilities.Constants;
 using FashionShop.Application.Common;
 using FashionShop.Utilities.Exceptions;
 using FashionShop.ViewModels.Catalog.Products;
+using FashionShop.ViewModels.Common;
 
 namespace FashionShop.Application.Catalog.Categories
 {
@@ -76,6 +77,35 @@ namespace FashionShop.Application.Catalog.Categories
                 Id = x.c.Id,
                 Name = x.ct.Name,
             }).ToListAsync();
+        }
+
+        public async Task<PagedResult<CategoryVm>> GetAllPaging(GetCategoryPagingRequest request)
+        {
+            var query = from c in _context.Categories
+                        join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId                     
+                        where ct.LanguageId == request.LanguageId 
+                        select new {c,ct};
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new CategoryVm()
+                {
+                    Id = x.c.Id,
+                    Name = x.ct.Name,
+                    IsShowOnHome = x.c.IsShowOnHome,
+                }).ToListAsync();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<CategoryVm>()
+            {
+                TotalRecords = totalRow,
+                PageSize = request.PageSize,
+                PageIndex = request.PageIndex,
+                Items = data
+            };
+            return pagedResult;
+
         }
 
         public async Task<CategoryVm> GetById(string languageId, int id)

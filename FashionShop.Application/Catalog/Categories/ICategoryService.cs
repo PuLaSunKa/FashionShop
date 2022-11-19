@@ -1,5 +1,6 @@
 ﻿using FashionShop.ViewModels.Catalog.Categories;
 using FashionShop.ViewModels.Catalog.Products;
+using FashionShop.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,5 +19,7 @@ namespace FashionShop.Application.Catalog.Categories
         Task<int> Update(CategoryUpdateRequest request);
 
         Task<int> Delete(int CategoryId);
+
+        Task<PagedResult<CategoryVm>> GetAllPaging(GetCategoryPagingRequest request);
     }
 }

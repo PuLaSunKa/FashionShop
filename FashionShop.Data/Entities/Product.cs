@@ -18,8 +18,6 @@ namespace FashionShop.Data.Entities
 
         public List<ProductInCategory>? ProductInCategories { get; set; }
 
-        public List<ProductInBrand>? ProductInBrands { get; set; }
-
         public List<OrderDetail>? OrderDetails { get; set; }
 
         public List<Cart>? Carts { get; set; }
