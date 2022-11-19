@@ -18,8 +18,5 @@
     <ProjectReference Include="..\FashionShop.Utilities\FashionShop.Utilities.csproj" />
     <ProjectReference Include="..\FashionShop.ViewModels\FashionShop.ViewModels.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
 
 </Project>

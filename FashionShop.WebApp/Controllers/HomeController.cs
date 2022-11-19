@@ -13,15 +13,12 @@ namespace eShopSolution.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ISharedCultureLocalizer _loc;
-        private readonly ISlideApiClient _slideApiClient;
         private readonly IProductApiClient _productApiClient;
 
         public HomeController(ILogger<HomeController> logger,
-            ISlideApiClient slideApiClient,
             IProductApiClient productApiClient)
         {
             _logger = logger;
-            _slideApiClient = slideApiClient;
             _productApiClient = productApiClient;
         }
 
@@ -30,7 +27,6 @@ namespace eShopSolution.WebApp.Controllers
             var culture = CultureInfo.CurrentCulture.Name;
             var viewModel = new HomeViewModel
             {
-                Slides = await _slideApiClient.GetAll(),
                 FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
                 LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
             };
