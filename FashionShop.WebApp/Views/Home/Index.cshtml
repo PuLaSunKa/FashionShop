@@ -9,6 +9,302 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<!--slider area start-->
+<div class="slider_area slider_style home_three_slider owl-carousel">
+    <div class="single_slider" data-bgimg="/images/slide/slider1.jpg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="slider_content content_three">
+                        <img src="/images/slide/fshop.png" alt="">
+                        <p>bộ sưu tập quần áo mùa đông của quần áo len đã trở lại với ưu đãi 50%</p>
+                        <a href="@Url.Action( "Index", "SanPham")">Khám Phá Ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="single_slider" data-bgimg="/images/slide/slider2.jpg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="slider_content content_three">
+                        <img src="/images/slide/fshop.png" alt="">
+                        <p>bộ sưu tập quần áo mùa đông của quần áo len đã trở lại với ưu đãi 50%</p>
+                        <a href="@Url.Action( "Index", "SanPham")">Khám Phá Ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="single_slider" data-bgimg="/images/slide/slider3.jpg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="slider_content content_three">
+                        <img src="/images/slide/fshop.png" alt="">
+                        <p>bộ sưu tập quần áo mùa đông của quần áo len đã trở lại với ưu đãi 50%</p>
+                        <a href="@Url.Action( "Index", "SanPham")">Khám Phá Ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--slider area end-->
+
+<!--product section area start-->
+<section class="product_section womens_product">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2>Sản phẩm của chúng tôi</h2>
+                    <p>Các sản phẩm thiết kế hiện đại,mới nhất</p>
+                </div>
+            </div>
+        </div>
+        <div class="product_area">
+            <div class="row">
+                <div class="col-12">
+                    <div class="product_tab_button">
+                        <ul class="nav" role="tablist">
+                            <li>
+                                <a class="active" data-toggle="tab" href="#clothing" role="tab" aria-controls="clothing" aria-selected="true">Danh mục 1</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#handbag" role="tab" aria-controls="handbag" aria-selected="false">Danh mục 2</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#shoes" role="tab" aria-controls="shoes" aria-selected="false">Danh mục 3</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#accessories" role="tab" aria-controls="accessories" aria-selected="false">Danh mục 4</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="clothing" role="tabpanel">
+                    <div class="product_container">
+                        <div class="row product_column4">
+                            @for(int i=0; i<8; i++) {
+                            <div class="col-lg-3">
+                                <div class="single_product">
+                                    <div class="product_thumb">
+                                        <a class="primary_img" href="product-details.html"><img src="~/Content/images/product/product6.jpg" alt=""></a>
+                                        @*<a class="secondary_img" href="product-details.html"><img src="~/Content/images/product/product5.jpg" alt=""></a>*@
+
+                                        <div class="quick_button">
+                                            <a href="#" title="quick_view">Xem sản phẩm</a>
+                                        </div>
+
+                                    </div>
+                                    <div class="product_content">
+                                        <h3><a href="product-details.html">Áo dài tay</a></h3>
+                                        <span class="current_price">100000 đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="handbag" role="tabpanel">
+                    <div class="product_container">
+                        <div class="row product_column4">
+                            @for (int i = 0; i < 8; i++)
+                            {
+                                <div class="col-lg-3">
+                                    <div class="single_product">
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="product-details.html"><img src="~/Content/images/product/product6.jpg" alt=""></a>
+                                            @*<a class="secondary_img" href="product-details.html"><img src="~/Content/images/product/product5.jpg" alt=""></a>*@
+
+                                            <div class="quick_button">
+                                                <a href="#" title="quick_view">Xem sản phẩm</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="product_content">
+                                            <h3><a href="product-details.html">Áo dài tay</a></h3>
+                                            <span class="current_price">100000 đ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="shoes" role="tabpanel">
+                    <div class="product_container">
+                        <div class="row product_column4">
+                            @for (int i = 0; i < 8; i++)
+                            {
+                                <div class="col-lg-3">
+                                    <div class="single_product">
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="product-details.html"><img src="~/Content/images/product/product6.jpg" alt=""></a>
+                                            @*<a class="secondary_img" href="product-details.html"><img src="~/Content/images/product/product5.jpg" alt=""></a>*@
+
+                                            <div class="quick_button">
+                                                <a href="#" title="quick_view">Xem sản phẩm</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="product_content">
+                                            <h3><a href="product-details.html">Áo dài tay</a></h3>
+                                            <span class="current_price">100000 đ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="accessories" role="tabpanel">
+                    <div class="product_container">
+                        <div class="row product_column4">
+                            @for (int i = 0; i < 8; i++)
+                            {
+                                <div class="col-lg-3">
+                                    <div class="single_product">
+                                        <div class="product_thumb">
+                                            <a class="primary_img" href="product-details.html"><img src="~/Content/images/product/product6.jpg" alt=""></a>
+                                            @*<a class="secondary_img" href="product-details.html"><img src="~/Content/images/product/product5.jpg" alt=""></a>*@
+
+                                            <div class="quick_button">
+                                                <a href="#" title="quick_view">Xem sản phẩm</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="product_content">
+                                            <h3><a href="product-details.html">Áo dài tay</a></h3>
+                                            <span class="current_price">100000 đ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!--product section area end-->
+<!--product section area start-->
+<section class="product_section womens_product bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2>Sản phẩm mới nhất</h2>
+                    <p>Sản phẩm ấn tượng và mới nhất</p>
+                </div>
+            </div>
+        </div>
+        <div class="product_area">
+            <div class="row">
+                <div class="product_carousel product_three_column4 owl-carousel">
+                    @foreach (var item in Model.LatestProducts)
+                    {
+                        var url = $"/{culture}/{_loc["productUrl"]}/{item.Id}";
+                        <div class="col-lg-3">
+                            <div class="single_product">
+                                <div class="product_thumb">
+                                    <a class="primary_img" href="product-details.html"><img src="@(Configuration["BaseAddress"] + item.ThumbnailImage)" alt="@item.Name"></a>
+                                    @*<a class="secondary_img" href="product-details.html"><img src="~/Content/images/product/product5.jpg" alt=""></a>*@
+
+                                    <div class="quick_button">
+                                        <a href="@url" title="quick_view">Xem sản phẩm</a>
+                                    </div>
+
+                                </div>
+                                <div class="product_content">
+                                    <h3><a href="@url">@item.Name</a></h3>
+                                    <span class="current_price">@item.Price đ</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @for (int i = 0; i < 8; i++)
+                    {
+                        <div class="col-lg-3">
+                            <div class="single_product">
+                                <div class="product_thumb">
+                                    <a class="primary_img" href="product-details.html"><img src="~/Content/images/product/product6.jpg" alt=""></a>
+                                    @*<a class="secondary_img" href="product-details.html"><img src="~/Content/images/product/product5.jpg" alt=""></a>*@
+
+                                    <div class="quick_button">
+                                        <a href="#" title="quick_view">Xem sản phẩm</a>
+                                    </div>
+
+                                </div>
+                                <div class="product_content">
+                                    <h3><a href="product-details.html">Áo dài tay</a></h3>
+                                    <span class="current_price">100000 đ</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!--product section area end-->
+<!--blog section area start-->
+<section class="blog_section blog_section_three">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2>Bài viết mới nhất</h2>
+                    <p>Cập nhật xu thế thời trang</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="blog_wrapper blog_column3 owl-carousel">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <div class="col-lg-4">
+                        <div class="single_blog">
+                            <div class="blog_thumb">
+                                <a href="blog-details.html"><img src="~/Content/images/blog/blog1.jpg" alt=""></a>
+                                <div class="blog_icon">
+                                    <a href="blog-details.html"></a>
+                                </div>
+                            </div>
+                            <div class="blog_content">
+                                <h3><a href="blog-details.html">Tên bài viết</a></h3>
+                                <div class="author_name">
+                                    <p>
+                                        <span class="post_by">Đăng bởi</span>
+                                        <span class="themes">demo</span>
+                                        / 30 tháng 10, 2022
+                                    </p>
+
+                                </div>
+                                <div class="post_desc">
+                                    <p>Trích đoạn nội dung bài viết...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+<!--blog section area end-->
+
 <div class="well well-small">
     <h4><localize>Featured Products</localize> <small class="pull-right">200+ featured products</small></h4>
     <div class="row-fluid">
