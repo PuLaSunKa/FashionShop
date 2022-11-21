@@ -24,6 +24,9 @@ namespace FashionShop.ApiIntegration
                     IConfiguration configuration)
             : base(httpClientFactory, httpContextAccessor, configuration)
         {
+            _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<bool> CreateCategory(CategoryCreateRequest request)
@@ -61,6 +64,7 @@ namespace FashionShop.ApiIntegration
 
         public async Task<CategoryVm> GetById(string languageId, int id)
         {
+            languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
             return await GetAsync<CategoryVm>($"/api/categories/{id}/{languageId}");
         }
 
@@ -89,7 +93,6 @@ namespace FashionShop.ApiIntegration
 
             var requestContent = new MultipartFormDataContent();
 
-            requestContent.Add(new StringContent(request.IsShowOnHome.ToString()), "isShowOnHome");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Name) ? "" : request.Name.ToString()), "name");
             requestContent.Add(new StringContent(languageId), "languageId");
 

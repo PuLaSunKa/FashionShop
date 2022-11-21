@@ -1,4 +1,5 @@
 ﻿using FashionShop.Data.Enums;
+using FashionShop.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

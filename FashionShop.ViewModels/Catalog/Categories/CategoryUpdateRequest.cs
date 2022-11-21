@@ -9,8 +9,7 @@ namespace FashionShop.ViewModels.Catalog.Categories
 {
     public class CategoryUpdateRequest
     {
-        public int Id { get; set; }
-        public bool IsShowOnHome { set; get; }  
+        public int Id { get; set; }  
         public string? Name { set; get; }       
         public string? LanguageId { set; get; }
 

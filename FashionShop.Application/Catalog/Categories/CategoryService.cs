@@ -117,7 +117,7 @@ namespace FashionShop.Application.Catalog.Categories
             return await query.Select(x => new CategoryVm()
             {
                 Id = x.c.Id,
-                Name = x.ct.Name,
+                Name = x.ct.Name
             }).FirstOrDefaultAsync();
         }
 
@@ -129,7 +129,7 @@ namespace FashionShop.Application.Catalog.Categories
 
             if (category == null || categoryTranslations == null) throw new FashionShopException($"Cannot find a category with id: {request.Id}");
 
-            categoryTranslations.Name = request.Name;   
+            categoryTranslations.Name = request.Name;
 
             return await _context.SaveChangesAsync();
         }

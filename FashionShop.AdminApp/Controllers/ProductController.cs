@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace FashionShop.AdminApp.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductApiClient _productApiClient;
         private readonly IConfiguration _configuration;
@@ -186,6 +186,12 @@ namespace FashionShop.AdminApp.Controllers
 
             ModelState.AddModelError("", "Xóa không thành công");
             return View(request);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id, string languageId)
+        {
+            var result = await _productApiClient.GetById(id, languageId);
+            return View(result);
         }
     }
 }
