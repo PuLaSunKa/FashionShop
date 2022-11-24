@@ -1,39 +1,36 @@
 ﻿using FashionShop.ApiIntegration;
 using FashionShop.Utilities.Constants;
 using FashionShop.ViewModels.Catalog.Categories;
-using FashionShop.ViewModels.Catalog.Products;
+using FashionShop.ViewModels.Catalog.Posts;
 using FashionShop.ViewModels.Common;
-using FashionShop.ViewModels.System.Products;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using System.Security.Claims;
 
 namespace FashionShop.AdminApp.Controllers
 {
-    public class CategoryController : BaseController
-    {       
+    public class PostController : BaseController
+    {
         private readonly IConfiguration _configuration;
+        private readonly IUserApiClient _userApiClient;
+        private readonly IPostApiClient _postApiClient;
 
-        private readonly ICategoryApiClient _categoryApiClient;
-
-        public CategoryController(
+        public PostController(IUserApiClient userApiClient,
             IConfiguration configuration,
-            ICategoryApiClient categoryApiClient)
+            IPostApiClient postApiClient)
         {
+            _userApiClient = userApiClient;
             _configuration = configuration;
-            _categoryApiClient = categoryApiClient;
+            _postApiClient = postApiClient;
         }
         public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10)
         {
-            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-
-            var request = new GetCategoryPagingRequest()
-            {               
+           
+            var request = new PagingRequestBase()
+            {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageId = languageId,
             };
-            var data = await _categoryApiClient.GetPagings(request);
+            var data = await _postApiClient.GetPagings(request);
 
             if (TempData["result"] != null)
             {
@@ -49,44 +46,43 @@ namespace FashionShop.AdminApp.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Create([FromForm] CategoryCreateRequest request)
+        public async Task<IActionResult> Create([FromForm] PostCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return View(request);
-
-            var result = await _categoryApiClient.CreateCategory(request);
+            request.UserId = User.FindFirstValue(ClaimTypes.Sid);
+            var result = await _postApiClient.CreatePost(request);
             if (result)
             {
-                TempData["result"] = "Thêm mới loại sản phẩm thành công";
+                TempData["result"] = "Thêm mới bài viết thành công";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Thêm loại sản phẩm thất bại");
+            ModelState.AddModelError("", "Thêm bài viết thất bại");
             return View(request);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-
-            var categoryedit = await _categoryApiClient.GetById(languageId, id);
-            var editVm = new CategoryUpdateRequest()
+            
+            var postedit = await _postApiClient.GetById(id);
+            var editVm = new PostUpdateRequest()
             {
-                Id = categoryedit.Id,               
-                Name = categoryedit.Name,
+                Title = postedit.Title, 
+                Description = postedit.Description,
             };
             return View(editVm);
         }
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Edit([FromForm] CategoryUpdateRequest request)
+        public async Task<IActionResult> Edit([FromForm] PostUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return View(request);
 
-            var result = await _categoryApiClient.UpdateCategory(request);
+            var result = await _postApiClient.UpdatePost(request);
             if (result)
             {
                 TempData["result"] = "Cập nhật thành công";
@@ -100,32 +96,32 @@ namespace FashionShop.AdminApp.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            return View(new CategoryDeleteRequest()
+            return View(new PostDeleteRequest()
             {
                 Id = id
             });
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(CategoryDeleteRequest request)
+        public async Task<IActionResult> Delete(PostDeleteRequest request)
         {
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _categoryApiClient.DeleteCategory(request.Id);
+            var result = await _postApiClient.DeletePost(request.Id);
             if (result)
             {
-                TempData["result"] = "Xóa loại sản phẩm thành công";
+                TempData["result"] = "Xóa bài viết thành công";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Xóa không thành công");
+            ModelState.AddModelError("", "Xóa bài viết không thành công!");
             return View(request);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(string languageId, int id)
+        public async Task<IActionResult> Details( int id)
         {
-            var result = await _categoryApiClient.GetById(languageId, id);
+            var result = await _postApiClient.GetById( id);
             return View(result);
         }
     }

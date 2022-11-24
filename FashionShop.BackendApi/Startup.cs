@@ -1,4 +1,5 @@
 ﻿using FashionShop.Application.Catalog.Categories;
+using FashionShop.Application.Catalog.Posts;
 using FashionShop.Application.Catalog.Products;
 using FashionShop.Application.Common;
 using FashionShop.Application.System.Languages;
@@ -44,7 +45,7 @@ namespace FashionShop.BackendApi
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<ILanguageService, LanguageService>();
-
+            services.AddTransient<IPostService, PostService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
 

@@ -139,7 +139,9 @@ namespace FashionShop.ApiIntegration
 
         public async Task<ProductVm> GetById(int id, string languageId)
         {
-            languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            if (string.IsNullOrEmpty(languageId)){
+                languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            }
             var data = await GetAsync<ProductVm>($"/api/products/{id}/{languageId}");
 
             return data;

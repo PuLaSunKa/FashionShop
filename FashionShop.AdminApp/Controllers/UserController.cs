@@ -11,6 +11,7 @@ using FashionShop.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
@@ -52,7 +53,7 @@ namespace FashionShop.AdminApp.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
-        {
+        {         
             var result = await _userApiClient.GetById(id);
             return View(result.ResultObj);
         }
