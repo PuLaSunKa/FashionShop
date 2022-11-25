@@ -30,6 +30,7 @@ builder.Services.AddTransient<ILanguageApiClient, LanguageApiClient>();
 builder.Services.AddTransient<IProductApiClient, ProductApiClient>();
 builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 builder.Services.AddTransient<IPostApiClient, PostApiClient>();
+builder.Services.AddTransient<IContactApiClient, ContactApiClient>();
 builder.Services.AddRazorPages();
 
 

@@ -5,6 +5,7 @@ using FashionShop.Application.Common;
 using FashionShop.Application.System.Languages;
 using FashionShop.Application.System.Roles;
 using FashionShop.Application.System.Users;
+using FashionShop.Application.Utilities;
 using FashionShop.Data.EF;
 using FashionShop.Data.Entities;
 using FashionShop.Utilities.Constants;
@@ -48,6 +49,8 @@ namespace FashionShop.BackendApi
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IContactService, ContactService>();
+
 
             //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();

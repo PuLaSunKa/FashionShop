@@ -19,7 +19,7 @@ namespace FashionShop.ApiIntegration
 
         Task<bool> UpdatePost(PostUpdateRequest request);
 
-        Task<bool> DeletePost(int CategoryId);
+        Task<bool> DeletePost(int PostId);
 
         Task<PagedResult<PostVm>> GetPagings(PagingRequestBase request );
     }
