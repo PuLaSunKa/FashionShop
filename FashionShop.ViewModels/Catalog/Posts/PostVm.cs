@@ -14,5 +14,6 @@ namespace FashionShop.ViewModels.Catalog.Posts
         public string? Description { get; set; }
         public DateTime DateCreate { get; set; }
         public string? UserId { get; set; }
+        public string? Author { get; set;}
     }
 }

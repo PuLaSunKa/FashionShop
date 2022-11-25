@@ -40,10 +40,11 @@ namespace FashionShop.ApiIntegration
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var requestContent = new MultipartFormDataContent();
-            
-            requestContent.Add(new StringContent(request.UserId.ToString()), "userId");
+
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.UserId) ? "" : request.UserId.ToString()), "userId");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Author) ? "" : request.Author.ToString()), "author");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Title) ? "" : request.Title.ToString()), "title");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description) ? "" : request.Description.ToString()), "title");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description) ? "" : request.Description.ToString()), "description");
             requestContent.Add(new StringContent(request.DateCreate.ToString()), "dateCreate");
 
             var response = await client.PostAsync($"/api/posts/", requestContent);
@@ -62,7 +63,7 @@ namespace FashionShop.ApiIntegration
 
         public async Task<PostVm> GetById( int id)
         {          
-            return await GetAsync<PostVm>($"/api/categories/{id}/");
+            return await GetAsync<PostVm>($"/api/posts/{id}/");
         }
 
         public async Task<PagedResult<PostVm>> GetPagings(PagingRequestBase request)
@@ -87,7 +88,7 @@ namespace FashionShop.ApiIntegration
 
             var requestContent = new MultipartFormDataContent();      
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Title) ? "" : request.Title.ToString()), "title");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description) ? "" : request.Description.ToString()), "title");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description) ? "" : request.Description.ToString()), "description");
            
             var response = await client.PutAsync($"/api/posts/" + request.Id, requestContent);
             return response.IsSuccessStatusCode;

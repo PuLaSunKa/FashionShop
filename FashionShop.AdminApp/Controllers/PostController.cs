@@ -51,6 +51,7 @@ namespace FashionShop.AdminApp.Controllers
             if (!ModelState.IsValid)
                 return View(request);
             request.UserId = User.FindFirstValue(ClaimTypes.Sid);
+            request.Author = User.FindFirstValue(ClaimTypes.Name);
             var result = await _postApiClient.CreatePost(request);
             if (result)
             {
@@ -69,6 +70,7 @@ namespace FashionShop.AdminApp.Controllers
             var postedit = await _postApiClient.GetById(id);
             var editVm = new PostUpdateRequest()
             {
+                Id= id,
                 Title = postedit.Title, 
                 Description = postedit.Description,
             };
@@ -94,12 +96,18 @@ namespace FashionShop.AdminApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View(new PostDeleteRequest()
+            var postdelete = await _postApiClient.GetById(id);
+            var deleteVm = new PostDeleteRequest()
             {
-                Id = id
-            });
+                Id = id,
+                Title = postdelete.Title,
+                Description = postdelete.Description,
+                Author = postdelete.Author,
+                DateCreate = postdelete.DateCreate
+            };
+            return View(deleteVm);
         }
         [HttpPost]
         public async Task<IActionResult> Delete(PostDeleteRequest request)

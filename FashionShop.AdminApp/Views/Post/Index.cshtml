@@ -9,9 +9,8 @@
             setTimeout(function () {
                 $('#msgAlert').fadeOut('slow');
             }, 2000);
-        </script>
+        </script>   
 }
-
 <div class="container-fluid">
     <h1 class="mt-4">Danh sách bài viết</h1>
     <ol class="breadcrumb mb-4">
@@ -75,7 +74,7 @@
                                     @Html.DisplayFor(modelItem => item.DateCreate)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UserId)
+                                    @Html.DisplayFor(modelItem => item.Author)
                                 </td>
                                 <td>
                                     @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |

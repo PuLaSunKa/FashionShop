@@ -18,6 +18,8 @@ namespace FashionShop.Data.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id).UseIdentityColumn();
+            
+            builder.Property(x => x.Author).IsRequired();
 
             builder.HasOne(x => x.AppUser).WithMany(x => x.Posts).HasForeignKey(x => x.UserId);
         }
