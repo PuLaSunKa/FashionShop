@@ -1,7 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model FashionShop.ViewModels.Utilities.ContactCreateRequest
+
 @{
+    ViewData["Title"] = "Contact";
 }
 <!--breadcrumbs area start-->
 <div class="breadcrumbs_area other_bread">
@@ -38,23 +38,31 @@
             <div class="col-lg-6 col-md-12">
                 <div class="contact_message form">
                     <h3>Gửi Cho Chúng Tôi Câu Hỏi Của Bạn</h3>
-                    <form id="contact-form" method="POST">
+                    <form id="contact-form" method="POST" action="assets/mail.php">
                         <p>
                             <label> Họ Tên (Bắt buộc)</label>
-                            <input name="name" placeholder="Họ tên *" type="text">
+                            <input asp-for="Name" placeholder="Họ tên *" type="text">
+                            <span asp-validation-for="Name" class="text-danger"></span>
                         </p>
                         <p>
                             <label>  Email (Bắt buộc)</label>
-                            <input name="email" placeholder="Email *" type="email">
+                            <input asp-for="Email" placeholder="Email *" type="email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </p>
                         <p>
-                            <label>  Vấn Đề</label>
-                            <input name="subject" placeholder="Vấn đề *" type="text">
+                            <label>  Số điện thoại</label>
+                            <input asp-for="PhoneNumber" placeholder="Vấn đề *" type="text">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </p>
                         <div class="contact_textarea">
                             <label>  Lời Nhắn</label>
-                            <textarea placeholder="Lời nhắn *" name="message" class="form-control2"></textarea>
+                            <textarea placeholder="Lời nhắn *" asp-validation-for="Message" class="form-control2"></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
                         </div>
+                        <p>
+                            <input asp-for="Status" class="form-control" hidden value="true"/>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </p>
                         <button type="submit"> Gửi</button>
                         <p class="form-messege"></p>
                     </form>
@@ -81,3 +89,8 @@
     </div>
 </div>
 <!--contact map end-->
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

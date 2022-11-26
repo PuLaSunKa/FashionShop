@@ -35,6 +35,29 @@
             });
         });
     }
+
+    function AddtoCartEvents() {
+        // Write your JavaScript code.
+        $('body').on('click', '.btn-add-to-cart', function (e) {
+            e.preventDefault();
+            const culture = $('#hidCulture').val();
+            const id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: "/" + culture + '/Cart/AddToCart',
+                data: {
+                    id: id,
+                    languageId: culture
+                },
+                success: function (res) {
+                    $('#lbl_number_items_header').text(res.length);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
+    }
 }
 
 

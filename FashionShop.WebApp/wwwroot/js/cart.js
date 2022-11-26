@@ -26,6 +26,15 @@
         });
     }
 
+    function UpdateCartButtonEvents() {
+        $('body').on('click', '.btn-updatecart', function (e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            const quantity = parseInt($('#txt_quantity_' + id).val());
+            updateCart(id, quantity);
+        });
+    }
+
     function updateCart(id, quantity) {
         const culture = $('#hidCulture').val();
         $.ajax({
