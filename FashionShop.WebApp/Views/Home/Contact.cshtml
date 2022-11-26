@@ -38,7 +38,8 @@
             <div class="col-lg-6 col-md-12">
                 <div class="contact_message form">
                     <h3>Gửi Cho Chúng Tôi Câu Hỏi Của Bạn</h3>
-                    <form id="contact-form" method="POST" action="assets/mail.php">
+                    <form asp-action="Contact" enctype="multipart/form-data" method="post">
+                    
                         <p>
                             <label> Họ Tên (Bắt buộc)</label>
                             <input asp-for="Name" placeholder="Họ tên *" type="text">
@@ -59,10 +60,10 @@
                             <textarea placeholder="Lời nhắn *" asp-validation-for="Message" class="form-control2"></textarea>
                             <span asp-validation-for="Message" class="text-danger"></span>
                         </div>
-                        <p>
-                            <input asp-for="Status" class="form-control" hidden value="true"/>
+                        @*<p>
+                            <input asp-for="Status" class="form-control" hidden value="True"/>
                             <span asp-validation-for="Status" class="text-danger"></span>
-                        </p>
+                        </p>*@
                         <button type="submit"> Gửi</button>
                         <p class="form-messege"></p>
                     </form>
