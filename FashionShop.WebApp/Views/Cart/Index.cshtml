@@ -1,10 +1,9 @@
-﻿@using System.Globalization;
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
-    var culture = CultureInfo.CurrentCulture.Name;
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 @section scripts{
     <script src="~/js/cart.js"></script>
@@ -13,6 +12,87 @@
         cartController.initialize();
     </script>
 }
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area other_bread">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="@Url.Action("Index", "Home")">Trang Chủ</a></li>
+                        <li>/</li>
+                        <li>Giỏ Hàng</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+<!-- shopping cart area start -->
+<div class="shopping_cart_area">
+    <div class="container">
+        <form action="#">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table_desc">
+                        <div class="cart_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product_remove">Delete</th>
+                                        <th class="product_thumb">Image</th>
+                                        <th class="product_name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product_quantity">Quantity</th>
+                                        <th class="product_total">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    </tbody>
+                            </table>
+                        </div>
+                        <div class="cart_submit">
+                            <button type="submit" class="btn-update-quantity">Cập Nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--coupon code area start-->
+            <div class="coupon_area">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code right">
+                            <h3>Tổng Cộng</h3>
+                            <div class="coupon_inner">
+                                <div class="cart_subtotal">
+                                    <p>Tạm tính</p>
+                                    <p class="cart_amount"></p>
+                                </div>
+                                <div class="cart_subtotal">
+                                    <p>Tổng</p>
+                                    <p class="cart_amount"></p>
+                                </div>
+                                <div class="checkout_btn">
+                                    <a href="@Url.Action("Dathang","GioHang")">Đặt Hàng</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--coupon code area end-->
+
+        </form>
+    </div>
+</div>
+<!-- shopping cart area end -->
+
 
 <ul class="breadcrumb">
     <li><a href="index.html">Home</a> <span class="divider">/</span></li>

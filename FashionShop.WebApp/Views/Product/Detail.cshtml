@@ -8,10 +8,164 @@
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
 @inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _loc;
 
-<ul class="breadcrumb">
-    <li><a href="/"><localize>Home</localize></a> <span class="divider">/</span></li>
-    <li class="active">@Model.Product.Name</li>
-</ul>
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area product_bread">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                        <li>/</li>
+                        <li>@Model.Product.Name</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+<!--product details start-->
+<div class="product_details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-5">
+                <div class="product-details-tab">
+
+                    <div id="img-1" class="zoomWrapper single-zoom">
+                        <a href="#">
+                            <img id="zoom1" src="@(Configuration["BaseAddress"] + Model.Product.ThumbnailImage)" data-zoom-image="@(Configuration["BaseAddress"] + Model.Product.ThumbnailImage)" alt="@Model.Product.Name">
+                        </a>
+                    </div>
+
+                    @*                    <div class="single-zoom-thumb">
+                            <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
+                                <li>
+                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="assets/img/product/product4.jpg" data-zoom-image="assets/img/product/product4.jpg">
+                                        <img src="assets/img/s-product/product3.jpg" alt="zo-th-1" />
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="assets/img/product/product6.jpg" data-zoom-image="assets/img/product/product6.jpg">
+                                        <img src="assets/img/s-product/product.jpg" alt="zo-th-1" />
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="assets/img/product/product8.jpg" data-zoom-image="assets/img/product/product8.jpg">
+                                        <img src="assets/img/s-product/product2.jpg" alt="zo-th-1" />
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="assets/img/product/product2.jpg" data-zoom-image="assets/img/product/product2.jpg">
+                                        <img src="assets/img/s-product/product4.jpg" alt="zo-th-1" />
+                                    </a>
+
+                                </li>
+                            </ul>
+                        </div>*@
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-7">
+                <div class="product_d_right">
+                    <form action="#">
+
+                        <h1>@Model.Product.Name</h1>
+                        <div class="product_price">
+                            @if(@Model.Product.Price >= @Model.Product.OriginalPrice)
+                            {
+                                <span class="current_price">@String.Format("{0:0,0}", @Model.Product.Price) đ</span>
+                            }
+                            else
+                            {
+                                <span class="current_price">@String.Format("{0:0,0}", @Model.Product.Price) đ</span>
+                                <span class="old_price">@String.Format("{0:0,0}", @Model.Product.OriginalPrice) đ</span>
+                            }
+                            
+                        </div>
+                        <div class="product_desc">
+                            <p>@Model.Product.Description</p>
+                        </div>
+
+                        <div class="product_variant quantity">
+                            
+                            @*<button class="button" type="submit">add to cart</button>*@
+                            <form class="form-horizontal qtyFrm">
+                                <label>Số lượng</label>
+                                <div class="controls">
+                                    <input type="number" class="span1" min="1" max="100" value="1"/>
+                                    <button type="submit" class="button btn-large btn-primary pull-right"> <localize>Thêm vào giỏ hàng</localize> <i class=" icon-shopping-cart"></i></button>
+                                </div>
+                            </form>
+                            @*<a href="@Url.Action("ThemGiohang", "GioHang", new { id = @Model.MaSanPham, strURL = Request.Url.ToString() })" class="button">Thêm vào giỏ hàng</a>*@
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--product details end-->
+<!--product info start-->
+<div class="product_d_info">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="product_d_inner">
+                    <div class="product_info_button">
+                        <ul class="nav" role="tablist">
+                            <li>
+                                <a class="active" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">Thông tin chi tiết</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet" aria-selected="false">Thông số</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="info" role="tabpanel">
+                            <div class="product_info_content">
+                                @Html.Raw(@Model.Product.Details)
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="sheet" role="tabpanel">
+                            <div class="product_d_table">
+                                <form action="#">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td class="first_child">Danh mục</td>
+                                                <td>@Model.Product.Categories</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="first_child">Ngày tạo</td>
+                                                <td>@Model.Product.DateCreated</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="first_child">Hàng tồn</td>
+                                                <td>@Model.Product.Stock</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div class="product_info_content">
+                                <p>@Model.Product.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--product info end-->
+
 
 <div class="row">
     <div id="gallery" class="span3">
@@ -123,13 +277,12 @@
                             </div>
                             <div class="span3 alignR">
                                 <form class="form-horizontal qtyFrm">
-                                    <h3> $222.00</h3>
-                                    <label class="checkbox">
-                                        <input type="checkbox">  Adds product to compair
-                                    </label><br />
-                                    <div class="btn-group">
-                                        <a href="product_details.html" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
-                                        <a href="product_details.html" class="btn btn-large"><i class="icon-zoom-in"></i></a>
+                                    <div class="control-group">
+                                        <label class="control-label"><span>$222.00</span></label>
+                                        <div class="controls">
+                                            <input type="number" class="span1" placeholder="Qty." />
+                                            <button type="submit" class="btn btn-large btn-primary pull-right"> <localize>Add to</localize> <i class=" icon-shopping-cart"></i></button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>

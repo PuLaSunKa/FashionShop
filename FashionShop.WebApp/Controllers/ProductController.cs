@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FashionShop.ApiIntegration;
+using FashionShop.Utilities.Constants;
 using FashionShop.ViewModels.Catalog.Products;
 using FashionShop.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +45,18 @@ namespace FashionShop.WebApp.Controllers
                 Category = await _categoryApiClient.GetById(culture, id),
                 Products = products
             }); ;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var culture = CultureInfo.CurrentCulture.Name;
+            var viewModel = new HomeViewModel
+            {
+                FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
+                LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
+            };
+
+            return View(viewModel);
         }
     }
 }
