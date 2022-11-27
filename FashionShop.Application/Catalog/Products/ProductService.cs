@@ -132,7 +132,8 @@ namespace FashionShop.Application.Catalog.Products
 
         public async Task<PagedResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request)
         {
-            if(request.CategoryId == null)
+
+            if(request.CategoryId == null )
             {
                 var query = from p in _context.Products
                             join pt in _context.ProductTranslations on p.Id equals pt.ProductId
@@ -141,7 +142,8 @@ namespace FashionShop.Application.Catalog.Products
                             where pt.LanguageId == request.LanguageId //&& pi.IsDefault == true
                             select new { p, pt/*, pi*/ };
                 int totalRow = await query.CountAsync();
-
+                if (!string.IsNullOrEmpty(request.Keyword))
+                    query = query.Where(x => x.pt.Name.Contains(request.Keyword));
                 var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
                     .Take(request.PageSize)
                     .Select(x => new ProductVm()

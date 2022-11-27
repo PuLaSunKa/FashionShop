@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,16 +48,37 @@ namespace FashionShop.WebApp.Controllers
             }); ;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 8)
         {
             var culture = CultureInfo.CurrentCulture.Name;
-            var viewModel = new HomeViewModel
+            //var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            ViewBag.Keyword = keyword;
+            var request = new GetManageProductPagingRequest()
             {
-                FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
-                LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
+                Keyword = keyword,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                LanguageId = culture,
+
             };
 
-            return View(viewModel);
-        }
+            if (String.IsNullOrEmpty(request.Keyword))
+            {
+                var viewModel = new HomeViewModel
+                {
+                    FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
+                    LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
+                };
+                return View(viewModel);
+            }
+            var viewModel1 = _productApiClient.GetPagings(request);
+            var item = viewModel1.Result.Items;
+            var viewModel2 = new HomeViewModel
+            {             
+                FeaturedProducts = item,
+                LatestProducts = item,
+            };
+          return View(viewModel2);
+    }
     }
 }

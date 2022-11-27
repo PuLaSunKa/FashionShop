@@ -38,7 +38,16 @@
             <div class="col-lg-6 col-md-12">
                 <div class="contact_message form">
                     <h3>Gửi Cho Chúng Tôi Câu Hỏi Của Bạn</h3>
+                    <div class="row">
+                        @if (ViewBag.SuccessMsg != null)
+                        {
+                            <div id="msgAlert" class="alert alert-success" role="alert">
+                                @ViewBag.SuccessMsg
+                            </div>
+                        }
+                    </div>
                     <form asp-action="Contact" enctype="multipart/form-data" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     
                         <p>
                             <label> Họ Tên (Bắt buộc)</label>
@@ -57,7 +66,7 @@
                         </p>
                         <div class="contact_textarea">
                             <label>  Lời Nhắn</label>
-                            <textarea placeholder="Lời nhắn *" asp-validation-for="Message" class="form-control2"></textarea>
+                            <textarea asp-for="Message" placeholder="Lời nhắn *" class="form-control"></textarea>
                             <span asp-validation-for="Message" class="text-danger"></span>
                         </div>
                         @*<p>

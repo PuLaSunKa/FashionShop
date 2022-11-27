@@ -86,7 +86,7 @@ namespace FashionShop.WebApp.Controllers
             if (result)
             {
                 TempData["result"] = "Thêm liên hệ thành công";
-                return RedirectToAction("Index");
+                return RedirectToAction("Contact");
             }
 
             ModelState.AddModelError("", "Thêm liên hệ thất bại");

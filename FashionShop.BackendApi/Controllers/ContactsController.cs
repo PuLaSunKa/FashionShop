@@ -44,7 +44,6 @@ namespace FashionShop.BackendApi.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        [Authorize]
         public async Task<IActionResult> Create([FromForm] ContactCreateRequest request)
         {
             if (!ModelState.IsValid)
