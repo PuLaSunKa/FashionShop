@@ -67,19 +67,28 @@ namespace FashionShop.WebApp.Controllers
             return Ok(currentCart);
         }
 
-        public async Task<IActionResult> AddToCart(int id, string languageId)
+        public async Task<IActionResult> AddToCart(int id, string languageId, int quatity)
         {
             var product = await _productApiClient.GetById(id, languageId);
-
+            int sl;
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
             List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
             if (session != null)
+            {
                 currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
-
-            int quantity = 1;
+            }
+                
+            if(quatity != null || quatity > 0)
+            {
+                sl = quatity;
+            }
+            else
+            {
+                sl = 1;
+            }
             if (currentCart.Any(x => x.ProductId == id))
             {
-                quantity = currentCart.First(x => x.ProductId == id).Quantity + 1;
+                sl = currentCart.First(x => x.ProductId == id).Quantity + sl;
             }
 
             var cartItem = new CartItemViewModel()
@@ -89,7 +98,7 @@ namespace FashionShop.WebApp.Controllers
                 Image = product.ThumbnailImage,
                 Name = product.Name,
                 Price = product.Price,
-                Quantity = quantity
+                Quantity = sl
             };
 
             currentCart.Add(cartItem);

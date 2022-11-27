@@ -93,5 +93,12 @@ namespace FashionShop.ApiIntegration
             var response = await client.PutAsync($"/api/posts/" + request.Id, requestContent);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<List<PostVm>> GetLatestPosts(string languageId, int take)
+        {
+            var data = await GetListAsync<PostVm>($"/api/posts/latest/{languageId}/{take}");
+            return data;
+        }
+        
     }
 }

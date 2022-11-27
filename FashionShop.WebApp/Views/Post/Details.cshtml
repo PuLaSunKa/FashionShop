@@ -1,0 +1,85 @@
+﻿@model FashionShop.ViewModels.Catalog.Posts.PostVm
+
+@{
+    ViewData["Title"] = @Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area other_bread">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                        <li>/</li>
+                        <li>@Model.Title</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+<!--blog body area start-->
+<div class="blog_area blog_details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <!--blog grid area start-->
+                <div class="blog_details_wrapper">
+                    <div class="blog__thumb">
+                        <a href="#"><img src="~/images/slide/slider2.jpge" alt="@Model.Title"></a>
+                    </div>
+                    <div class="blog_info_wrapper">
+                        <div class="blog_info_inner">
+                            <div class="post__date">
+                                <span class="day">@Model.DateCreate.Day</span>
+                                <span class="month">Tháng @Model.DateCreate.Month</span>
+                            </div>
+                            <div class="post__info">
+                                <div class="post_header">
+                                    <h3>@Model.Title</h3>
+                                </div>
+                                <div class="post_meta">
+                                    <span>Đăng bởi </span>
+                                    <span><a href="#">@Model.Author</a></span>
+                                </div>
+                                <div class="post_content">
+                                    <p>
+                                        @Html.Raw(Model.Description)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+@*                        <div class="related_posts">
+                            <h3>Bài viết gần đây</h3>
+                            <div class="row">
+                                @foreach (var item in )
+                                {
+                                    var url = $"/{culture}/{_loc["postUrl"]}/{item.Id}";
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="single_related_posts">
+                                            <div class="related_posts_thumb">
+                                                <img src="~/images/slide/slider2.jpg" alt="@item.Title">
+                                            </div>
+                                            <div class="related_posts_content">
+                                                <h3><a href="@url">@item.Title</a></h3>
+                                                <span>@item.DateCreate.Day tháng @item.DateCreate.Month, @item.DateCreate.Year </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                              
+
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                <!--blog grid area start-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--blog section area end-->

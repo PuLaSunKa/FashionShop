@@ -21,6 +21,10 @@ namespace FashionShop.Utilities.Constants
             public const int NumberOfFeaturedProducts = 4;
             public const int NumberOfLatestProducts = 6;
         }
+        public class PostSettings
+        {
+            public const int NumberOfLatestPosts = 5;
+        }
 
         public class ProductConstants
         {

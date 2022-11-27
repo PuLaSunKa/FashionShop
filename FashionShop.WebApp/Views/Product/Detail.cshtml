@@ -95,10 +95,14 @@
                             <form class="form-horizontal qtyFrm">
                                 <label>Số lượng</label>
                                 <div class="controls">
-                                    <input type="number" class="span1" min="1" max="100" value="1"/>
-                                    <button type="submit" class="button btn-large btn-primary pull-right"> <localize>Thêm vào giỏ hàng</localize> <i class=" icon-shopping-cart"></i></button>
+                                    <input type="number" id="idquatity" class="span1" min="1" max="100" value="1"/>
+                                    <button type="submit" class="button btn-large btn-primary pull-right btn-add-to-cart" data-id="@Model.Product.Id"> <localize>Thêm vào giỏ hàng</localize> <i class=" icon-shopping-cart"></i></button>
+                                    <a  class="button btn-large btn-primary pull-right btn-add-to-cart" data-id="@Model.Product.Id"> <localize>Thêm vào giỏ hàng</localize> <i class=" icon-shopping-cart"></i></a>
                                 </div>
                             </form>
+                            <input type="number" id="idquatity" class="span1" min="1" max="100" value="1"/>
+                                    <button type="submit" class="button btn-large btn-primary pull-right btn-add-to-cart" data-id="@Model.Product.Id"> <localize>Thêm vào giỏ hàng</localize> <i class=" icon-shopping-cart"></i></button>
+                                    <a  class="button btn-large btn-primary pull-right btn-add-to-cart" data-id="@Model.Product.Id"> <localize>Thêm vào giỏ hàng</localize> <i class=" icon-shopping-cart"></i></a>
                             @*<a href="@Url.Action("ThemGiohang", "GioHang", new { id = @Model.MaSanPham, strURL = Request.Url.ToString() })" class="button">Thêm vào giỏ hàng</a>*@
                         </div>
 

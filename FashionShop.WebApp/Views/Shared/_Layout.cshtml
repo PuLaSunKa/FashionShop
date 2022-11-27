@@ -13,6 +13,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/img/favicon.ico">
     <link rel="stylesheet" href="/themes/css/fontawesome.min.css">
     <link rel="stylesheet" href="/themes/css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="/themes/css/plugins.css">
 
@@ -61,7 +63,7 @@
                         @Html.ActionLink("Sản Phẩm", "Index", "Product")
                     </li>
                     <li class="menu-item-has-children">
-                        @Html.ActionLink("Bài Viết", "BaiViet", "Website")
+                        @Html.ActionLink("Bài Viết", "Index", "Post")
                     </li>
                    
                     <li class="menu-item-has-children">
@@ -115,7 +117,7 @@
                     <div class="col-lg-7 col-md-12">
                         <div class="welcome_text">
                             <ul>
-                                <li><span>Fashion Shop:</span> web demo</li>
+                                <li><span>Fashion Shop:</span> THN</li>
                             </ul>
                         </div>
                     </div>
@@ -204,7 +206,7 @@
                                       
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("BaiViet", "Website")">Bài Viết <i class="fa fa-angle-down"></i></a>
+                                        <a href="@Url.Action("Index", "Post")">Bài Viết <i class="fa fa-angle-down"></i></a>
                                     </li>
                                 </ul>
                             </nav>
@@ -239,7 +241,7 @@
                                         <li>@Html.ActionLink("Trang Chủ", "Index", "Home",null, new { @class = "active" })</li>
                                         <li>@Html.ActionLink("Về Chúng Tôi", "About", "Home")</li>
                                         <li>@Html.ActionLink("Sản Phẩm", "Index", "Product")</li>   
-                                        <li>@Html.ActionLink("Bài Viết", "BaiViet", "Website")</li>
+                                        <li>@Html.ActionLink("Bài Viết", "Index", "Post")</li>
                                         <li>@Html.ActionLink("Liên Hệ", "Contact", "Home")</li>
 
                                     </ul>
@@ -313,10 +315,10 @@
                                 <div class="newleter-content">
                                     <p>Chât lượng vượt trội. Đăng ký để được miễn phí vận chuyển và trả hàng cho đơn hàng đầu tiên của bạn.</p>
                                     <div class="subscribe_form">
-                                        <form id="mc-form" class="mc-form footer-newsletter">
+@*                                        <form id="mc-form" class="mc-form footer-newsletter">
                                             <input id="mc-email" type="email" autocomplete="off" placeholder="Email..." />
                                             <button id="mc-submit">Đăng Ký !</button>
-                                        </form>
+                                        </form>*@
                                         <!-- mailchimp-alerts Start -->
                                         <div class="mailchimp-alerts text-centre">
                                             <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->

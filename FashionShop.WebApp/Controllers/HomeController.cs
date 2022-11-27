@@ -17,6 +17,7 @@ namespace FashionShop.WebApp.Controllers
         private readonly IProductApiClient _productApiClient;
         private readonly IConfiguration _configuration;
         private readonly IContactApiClient _contactApiClient;
+        private readonly IPostApiClient _postApiClient;
 
         public HomeController(ILogger<HomeController> logger,
             IProductApiClient productApiClient,
@@ -36,6 +37,7 @@ namespace FashionShop.WebApp.Controllers
             {
                 FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
                 LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
+                LatestPosts = await _postApiClient.GetLatestPosts(culture, SystemConstants.PostSettings.NumberOfLatestPosts),
             };
 
             return View(viewModel);
