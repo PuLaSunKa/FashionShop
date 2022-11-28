@@ -84,5 +84,12 @@ namespace FashionShop.BackendApi.Controllers
                 return BadRequest();
             return Ok();
         }
+        [HttpGet("latest/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetLatestPosts(int take)
+        {
+            var products = await _postService.GetLatestPosts(take);
+            return Ok(products);
+        }
     }
 }

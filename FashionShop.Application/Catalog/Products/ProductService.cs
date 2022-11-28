@@ -91,7 +91,8 @@ namespace FashionShop.Application.Catalog.Products
                 Stock = request.Stock,
                 ViewCount = 0,
                 DateCreated = DateTime.Now,
-                ProductTranslations = translations
+                ProductTranslations = translations,
+                IsFeatured = request.IsFeatured,
             };
             //Save image
             if (request.ThumbnailImage != null)

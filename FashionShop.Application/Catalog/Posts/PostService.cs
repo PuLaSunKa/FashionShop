@@ -4,6 +4,7 @@ using FashionShop.Utilities.Constants;
 using FashionShop.Utilities.Exceptions;
 using FashionShop.ViewModels.Catalog.Categories;
 using FashionShop.ViewModels.Catalog.Posts;
+using FashionShop.ViewModels.Catalog.Products;
 using FashionShop.ViewModels.Common;
 using FashionShop.ViewModels.System.Languages;
 using Microsoft.EntityFrameworkCore;
@@ -114,6 +115,25 @@ namespace FashionShop.Application.Catalog.Posts
             post.Title = request.Title;
             post.Description = request.Description;
             return await _context.SaveChangesAsync();
+        }
+        public async Task<List<PostVm>> GetLatestPosts(int take)
+        {
+            //1. Select join
+            var query = from p in _context.Posts             
+                        select new { p};
+
+            var data = await query.OrderByDescending(x => x.p.DateCreate).Take(take)
+                .Select(x => new PostVm()
+                {
+                    Id = x.p.Id,
+                    Title = x.p.Title,
+                    Description = x.p.Description,
+                    DateCreate = x.p.DateCreate,
+                    UserId = x.p.UserId.ToString(),
+                    Author = x.p.Author
+                }).ToListAsync();
+
+            return data;
         }
     }
 }

@@ -196,5 +196,12 @@ namespace FashionShop.AdminApp.Controllers
             }
             return roleAssignRequest;
         }
+        [HttpGet]
+        public async Task<IActionResult> Profiles()
+        {
+            var id = User.FindFirstValue(ClaimTypes.Sid);
+            var result = await _userApiClient.GetById(Guid.Parse(id));
+            return View(result.ResultObj);
+        }
     }
 }

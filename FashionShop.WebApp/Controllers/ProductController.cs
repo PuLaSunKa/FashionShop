@@ -61,24 +61,18 @@ namespace FashionShop.WebApp.Controllers
                 LanguageId = culture,
 
             };
-
-            if (String.IsNullOrEmpty(request.Keyword))
-            {
-                var viewModel = new HomeViewModel
-                {
-                    FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
-                    LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
-                };
-                return View(viewModel);
-            }
             var viewModel1 = _productApiClient.GetPagings(request);
             var item = viewModel1.Result.Items;
-            var viewModel2 = new HomeViewModel
-            {             
-                FeaturedProducts = item,
-                LatestProducts = item,
+
+                
+            var viewModel = new HomeViewModel
+            {
+                AllProducts = item,
+                FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
+                LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
             };
-          return View(viewModel2);
-    }
+            return View(viewModel);
+        }
+            
     }
 }

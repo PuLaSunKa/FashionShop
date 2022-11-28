@@ -1,5 +1,6 @@
 ﻿using FashionShop.ApiIntegration;
 using FashionShop.Utilities.Constants;
+using FashionShop.ViewModels.Catalog.Products;
 using FashionShop.ViewModels.Utilities;
 using FashionShop.WebApp.Models;
 using LazZiya.ExpressLocalization;
@@ -22,22 +23,32 @@ namespace FashionShop.WebApp.Controllers
         public HomeController(ILogger<HomeController> logger,
             IProductApiClient productApiClient,
             IConfiguration configuration,
-            IContactApiClient contactApiClient)
+            IContactApiClient contactApiClient,
+            IPostApiClient postApiClient)
         {
             _logger = logger;
             _productApiClient = productApiClient;
             _configuration = configuration;
             _contactApiClient = contactApiClient;
+            _postApiClient = postApiClient;
         }
 
         public async Task<IActionResult> Index()
         {
             var culture = CultureInfo.CurrentCulture.Name;
+            var request = new GetManageProductPagingRequest();
+            request.PageIndex = 1;
+            request.PageSize= 10;
+            request.Keyword = ViewBag.Keyword;
+
+            var viewModel1 = _productApiClient.GetPagings(request);
+            var item = viewModel1.Result.Items;
             var viewModel = new HomeViewModel
             {
+                AllProducts = item,
                 FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
                 LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
-                LatestPosts = await _postApiClient.GetLatestPosts(culture, SystemConstants.PostSettings.NumberOfLatestPosts),
+                LatestPosts = await _postApiClient.GetLatestPosts( SystemConstants.PostSettings.NumberOfLatestPosts),
             };
 
             return View(viewModel);

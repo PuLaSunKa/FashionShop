@@ -22,6 +22,6 @@ namespace FashionShop.ApiIntegration
         Task<bool> DeletePost(int PostId);
 
         Task<PagedResult<PostVm>> GetPagings(PagingRequestBase request );
-        Task<List<PostVm>> GetLatestPosts(string languageId, int take);
+        Task<List<PostVm>> GetLatestPosts(int take);
     }
 }

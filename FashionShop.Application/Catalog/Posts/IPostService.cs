@@ -1,5 +1,6 @@
 ﻿using FashionShop.ViewModels.Catalog.Categories;
 using FashionShop.ViewModels.Catalog.Posts;
+using FashionShop.ViewModels.Catalog.Products;
 using FashionShop.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,6 @@ namespace FashionShop.Application.Catalog.Posts
         Task<int> Delete(int PostId);
 
         Task<PagedResult<PostVm>> GetAllPaging(PagingRequestBase request);
+        Task<List<PostVm>> GetLatestPosts(int take);
     }
 }
