@@ -19,6 +19,13 @@ namespace FashionShop.BackendApi.Controllers
         {
             _productService = productService;
         }
+        [HttpGet("{languageId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAll(string languageId)
+        {
+            var products = await _productService.GetAll(languageId);
+            return Ok(products);
+        }
 
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetManageProductPagingRequest request)
