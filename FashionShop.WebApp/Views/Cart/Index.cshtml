@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<FashionShop.ViewModels.Catalog.Carts.CartVm>
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -30,6 +31,14 @@
 </div>
 <!--breadcrumbs area end-->
 <!-- shopping cart area start -->
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
 <div class="shopping_cart_area">
     <div class="container">
         <form action="#">
@@ -39,18 +48,39 @@
                         <div class="cart_page table-responsive">
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th class="product_remove">Delete</th>
+                                    <tr>                                     
                                         <th class="product_thumb">Image</th>
                                         <th class="product_name">Product</th>
                                         <th class="product-price">Price</th>
                                         <th class="product_quantity">Quantity</th>
                                         <th class="product_total">Total</th>
+                                        <th class="product_remove">Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    </tbody>
+                                    @foreach (var item in Model) {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Image)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Quantity)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Quantity)*@Html.DisplayFor(modelItem => item.Quantity)
+                                            </td>
+                                            <td>                                            
+                                                @Html.ActionLink("Delete", "Delete", new { id=item.Id})
+                                            </td>
+                                        </tr>
+                                        }
+                                </tbody>
                             </table>
                         </div>
                         <div class="cart_submit">

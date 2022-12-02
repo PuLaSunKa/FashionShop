@@ -14,6 +14,7 @@ namespace FashionShop.ViewModels.Catalog.Products
         public string? Details { set; get; }      
         public string? LanguageId { set; get; }
         public bool? IsFeatured { get; set; }
+        public decimal Price { set; get; }
 
         public IFormFile? ThumbnailImage { get; set; }
     }

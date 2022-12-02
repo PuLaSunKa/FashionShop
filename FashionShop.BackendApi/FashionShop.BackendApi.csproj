@@ -19,8 +19,4 @@
     <ProjectReference Include="..\FashionShop.ViewModels\FashionShop.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\user-content\" />
-  </ItemGroup>
-
 </Project>
