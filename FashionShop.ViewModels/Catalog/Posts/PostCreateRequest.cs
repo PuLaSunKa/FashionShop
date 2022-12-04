@@ -8,7 +8,6 @@ namespace FashionShop.ViewModels.Catalog.Posts
 {
     public class PostCreateRequest
     {
-        public int Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public DateTime DateCreate { get; set; }

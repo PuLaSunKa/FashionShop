@@ -76,6 +76,7 @@ namespace FashionShop.WebApp
             services.AddTransient<IUserApiClient, UserApiClient>();
             services.AddTransient<IContactApiClient, ContactApiClient>();
             services.AddTransient<IPostApiClient, PostApiClient>();
+            services.AddTransient<ICartApiClient, CartApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -137,6 +138,7 @@ namespace FashionShop.WebApp
                 endpoints.MapControllerRoute(
                      name: "default",
                      pattern: "{culture=vi}/{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }

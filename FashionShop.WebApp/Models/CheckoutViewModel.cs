@@ -1,4 +1,5 @@
-﻿using FashionShop.ViewModels.Sales;
+﻿using FashionShop.ViewModels.Catalog.Carts;
+using FashionShop.ViewModels.Sales;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace FashionShop.WebApp.Models
 {
     public class CheckoutViewModel
     {
-        public List<CartItemViewModel> CartItems { get; set; }
+        public List<CartVm>? CartItems { get; set; }
 
         public CheckoutRequest CheckoutModel { get; set; }
     }

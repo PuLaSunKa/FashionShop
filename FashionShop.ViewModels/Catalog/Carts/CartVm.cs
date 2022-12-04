@@ -8,6 +8,7 @@ namespace FashionShop.ViewModels.Catalog.Carts
 {
     public class CartVm
     {
+        public int Id { get; set; }
         public int ProductId { get; set; }
 
         public int Quantity { get; set; }

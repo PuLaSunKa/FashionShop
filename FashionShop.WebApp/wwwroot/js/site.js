@@ -4,7 +4,7 @@
         AddtoCartEvents();
         loadCart();
     }
-    function loadCart() {
+    function loadCart() {    
         const culture = $('#hidCulture').val();
         $.ajax({
             type: "GET",
@@ -22,10 +22,9 @@
             const id = $(this).data('id');
             $.ajax({
                 type: "POST",
-                url: "/" + culture + '/Cart/AddToCart',
+                url: "/" + culture +'/Cart/AddToCart',
                 data: {
                     id: id,
-                    languageId: culture,
                     quatity: 1
                 },
                 success: function (res) {

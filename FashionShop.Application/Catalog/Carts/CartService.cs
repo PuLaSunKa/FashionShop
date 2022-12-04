@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FashionShop.Application.Catalog.Carts
 {
@@ -50,33 +51,49 @@ namespace FashionShop.Application.Catalog.Carts
 
         public async Task<List<CartVm>> GetAllByUserId(string languageId, string userId)
         {
-            //1. Select join
             Guid userID = Guid.Parse(userId);
-            var query = from c in _context.Carts 
-                        where c.UserId == userID
-                        select new { c };
-            var productID = query.Select(x => x.c.ProductId);
-            int productId = Convert.ToInt32(productID);
-
-            var product = await _context.Products.FindAsync(productId);
-
-            var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId
-             && x.LanguageId == languageId);
-
-            var image = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
-
+            var query = from c in _context.Carts
+                        join p in _context.Products on c.ProductId equals p.Id
+                        join pt in _context.ProductTranslations on p.Id equals pt.ProductId                       
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                        from pi in ppi.DefaultIfEmpty()
+                        where pt.LanguageId == languageId &&c.UserId == userID
+                        select new { c,p, pt, pi};
+            
             var data = await query.OrderByDescending(x => x.c.DateCreated)
                 .Select(x => new CartVm()
                 {
-                    ProductId = productId,
+                    ProductId = x.p.Id,
                     Quantity = x.c.Quantity,
-                    Description = productTranslation.Description,
-                    Name = productTranslation.Name,
-                    Price = product.Price,
-                    Image = image != null ? image.ImagePath : "no-image.jpg",
+                    Description = x.pt.Description,
+                    Name = x.pt.Name,
+                    Price = x.p.Price,
+                    Image = x.pi != null ? x.pi.ImagePath : "no-image.jpg",
                 }).ToListAsync();
        
             return data;
+        }
+
+        public async Task<CartVm> FindCartByProductIdOfUser(string languageId, string userId, int productId)
+        {
+            Guid userID = Guid.Parse(userId);
+            var query = from c in _context.Carts
+                        where c.UserId == userID && c.ProductId == productId
+                        select new { c };
+            var product = await _context.Products.FindAsync(productId);
+            var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId
+             && x.LanguageId == languageId);
+            var image = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
+            return await query.Select(x => new CartVm()
+            {
+                ProductId = productId,
+                Quantity = x.c.Quantity,
+                Description = productTranslation.Description,
+                Name = productTranslation.Name,
+                Price = product.Price,
+                Image = image != null ? image.ImagePath : "no-image.jpg",
+            })
+            .FirstOrDefaultAsync();
         }
 
         public async Task<CartVm> GetById(string languageId, int id)
