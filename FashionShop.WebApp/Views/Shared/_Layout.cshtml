@@ -1,49 +1,364 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using System.Globalization;
+
+@{
+    var culture = CultureInfo.CurrentCulture.Name;
+}
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FashionShop.WebApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FashionShop.WebApp.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/img/favicon.ico">
+    <link rel="stylesheet" href="/themes/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/themes/css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/themes/css/plugins.css">
+
+    <!-- Main Style CSS -->
+    <link href="/themes/css/style.css" rel="stylesheet" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FashionShop.WebApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <input type="hidden" id="hidCulture" value="@culture" />
+    <input type="hidden" id="hidBaseAddress" value="@Configuration["BaseAddress"]" />
+    <!-- Main Wrapper Start -->
+    <!--Offcanvas menu area start-->
+    <div class="off_canvars_overlay">
+
+    </div>
+    <div class="offcanvas_menu">
+        <div class="canvas_open">
+            <a href="javascript:void(0)"><i class="ion-navicon"></i></a>
+        </div>
+        <div class="offcanvas_menu_wrapper">
+            <div class="canvas_close">
+                <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
+            </div>
+            <div class="welcome_text">
+                <ul>
+                    <li><span>FashionShop</span></li>
+                </ul>
+            </div>
+
+            <div class="search_bar">
+                <form asp-action="Index" asp-controller="Product" method="get">
+                    <input  placeholder="Tìm kiếm..." value="@ViewBag.Keyword" name="keyword" type="text">
+                    <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                </form>
+            </div>
+            <div class="cart_area">
+                <div class="cart_link">
+                    <a href="@Url.ActionLink("Index","Cart")"><i class="fa fa-shopping-basket"></i><span id="lbl_number_items_header">0</span> sản phẩm</a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+            <div id="menu" class="text-left ">
+                <ul class="offcanvas_main_menu">
+                    <li class="menu-item-has-children active">
+                        @Html.ActionLink("Trang Chủ", "Index", "Home")
+                    </li>
+                    <li class="menu-item-has-children">
+                        @Html.ActionLink("Sản Phẩm", "Index", "Product")
+                    </li>
+                    <li class="menu-item-has-children">
+                        @Html.ActionLink("Bài Viết", "Index", "Post")
+                    </li>
+                   
+                    <li class="menu-item-has-children">
+                        @Html.ActionLink("Về Chúng Tôi", "About", "Home")
+                    </li>
+                    <li class="menu-item-has-children">
+                        @Html.ActionLink("Liên hệ   ", "Contact", "Home")
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Tài khoản</a>
+                        @if (User.Identity.IsAuthenticated){
+                            <ul class="sub-menu">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - FashionShop.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <li><a href="/@culture/Account/Logout">Thông tin</a></li>
+                                <li><a href="/@culture/Account/Logout">Đơn hàng</a></li>
+                                <form action="/@culture/Account/Logout" method="post">
+                                    <button id="logout" type="submit" style="border:unset;display: block;padding: 0;background: none;">
+                                        <span><localize>Đăng Xuất</localize></span>
+                                    </button>
+                                </form>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="sub-menu">
+                                <li><a href="/@culture/Account/Login">Đăng nhập</a></li>
+                                <li><a href="/@culture/Account/Register">Đăng ký</a></li>
+                            </ul>
+                        }
+
+                    </li>
+                </ul>
+            </div>
+            <div class="offcanvas_footer">
+                <span><a href="#"><i class="fa fa-envelope-o"></i> info@fashionshop.com</a></span>
+                <ul>
+                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--Offcanvas menu area end-->
+    <!--header area start-->
+    <header class="header_area header_three">
+        <!--header top start-->
+        <div class="header_top">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-12">
+                        <div class="welcome_text">
+                            <ul>
+                                <li><span>Fashion Shop:</span> THN</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-12">
+                        <div class="top_right text-right">
+                            <ul>
+                                <li class="top_links">
+                                @if (User.Identity.IsAuthenticated){
+                                    <a href="#">@User.Identity.Name <i class="ion-chevron-down"></i></a>
+                                    <ul class="dropdown_links">
+                                        <li><a href="/@culture/Account/Login">Thông tin</a></li>
+                                        <li><a href="/@culture/Account/Login">Đơn hàng</a></li>
+                                        <li>
+                                            <style>
+                                                #logout{
+                                                    border:unset;
+                                                    display: block;
+                                                    padding: 0;
+                                                    background: none;
+                                                }
+                                                #logout:hover{
+                                                    color:#FF6A28;
+                                                }
+                                            </style>
+                                            <form action="/@culture/Account/Logout" method="post">
+                                                <button id="logout" type="submit" style="border:unset;display: block;padding: 0;background: none;">
+                                                    <span><localize>Đăng xuất</localize></span>
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <a href="#">Tài Khoản <i class="ion-chevron-down"></i></a>
+                                    <ul class="dropdown_links">
+                                        <li><a href="/@culture/Account/Login">Đăng Nhập</a></li>
+                                        <li><a href="/@culture/Account/Register">Đăng Ký</a></li>
+                                    </ul>
+                                }
+                                 </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--header top start-->
+        <!--header middel start-->
+        <div class="header_middel">
+            <div class="container-fluid">
+                <div class="middel_inner">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4">
+                            <div class="search_bar">
+                                <form asp-action="Index" asp-controller="Product" method="get">
+                                    <input placeholder="Tìm kiếm..." value="@ViewBag.Keyword" name="keyword" type="text">
+                                    <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="logo">
+                                <a href="@Url.Action("Index", "Home")"><img src="/themes/images/logo/logo.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="cart_area">
+                                <div class="cart_link">
+                                    <a href="@Url.ActionLink("Index","Cart")"><i class="fa fa-shopping-basket"></i><span id="lbl_number_items_header">0</span> sản phẩm</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="horizontal_menu">
+                    <div class="left_menu">
+                        <div class="main_menu">
+                            <nav>
+                                <ul>
+                                    <li class="active">
+                                        <a href="@Url.Action("Index", "Home")">Home <i class="fa fa-angle-down"></i></a>
+                                    </li>
+                                    <li class="mega_items">
+                                        <a href="@Url.Action("Index", "Product")">Sản Phẩm <i class="fa fa-angle-down"></i></a>
+                                      
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "Post")">Bài Viết <i class="fa fa-angle-down"></i></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="logo_container">
+                        <a href="@Url.Action("Index", "Home")"><img src="/themes/images/logo/logo.png" alt=""></a>
+                    </div>
+                    <div class="right_menu">
+                        <div class="main_menu">
+                            <nav>
+                                <ul>
+                                    <li><a href="@Url.Action("About", "Home")">Về Chúng Tôi</a></li>
+                                    <li><a href="@Url.Action("Contact", "Home")">Liên Hệ</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--header middel end-->
+        <!--header bottom satrt-->
+        <div class="header_bottom sticky-header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="main_menu_inner">
+                            <div class="main_menu">
+                                <nav>
+                                    <ul>
+                                        <li>@Html.ActionLink("Trang Chủ", "Index", "Home",null, new { @class = "active" })</li>
+                                        <li>@Html.ActionLink("Về Chúng Tôi", "About", "Home")</li>
+                                        <li>@Html.ActionLink("Sản Phẩm", "Index", "Product")</li>   
+                                        <li>@Html.ActionLink("Bài Viết", "Index", "Post")</li>
+                                        <li>@Html.ActionLink("Liên Hệ", "Contact", "Home")</li>
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--header bottom end-->
+    </header>
+    <!--header area end-->
+
+    @RenderBody()
+
+
+    <!--footer area start-->
+    <footer class="footer_widgets other_widgets">
+        <div class="footer_top">
+            <div class="container">
+                <div class="footer_top_inner">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-6">
+                            <div class="widgets_container">
+                                <h3>Thông Tin</h3>
+                                <div class="footer_menu">
+                                    <ul>
+                                        <li>@Html.ActionLink("Về Chúng Tôi", "About", "Home")</li>
+                                        <li>@Html.ActionLink("Liên Hệ", "Contact", "Home")</li>
+                                        <li><a href="#">Chính Sách giao hàng</a></li>
+                                        <li><a href="#">Chính Sách Bảo Mật</a></li>
+                                        <li><a href="#">Điều Khoản &Aacute; Bảo Mật</a></li>
+                                        <li><a href="#">Chính Sách Hoàn Trả</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-6">
+                            <div class="widgets_container">
+                                <h3>Bổ sung</h3>
+                                <div class="footer_menu">
+                                    <ul>
+                                        <li><a href="#">Thương Hiệu</a></li>
+                                        <li><a href="#">Mã Giảm Giá</a></li>
+                                        <li><a href="#">My Account</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="widgets_container contact_us">
+                                <h3>Liên Hệ</h3>
+                                <div class="footer_contact">
+                                    <p>Địa Chỉ: tp HCM</p>
+                                    <p>Hotline:<a href="tel:+123123123">123123123</a> </p>
+                                    <p>Email: info@fashionshop.com</p>
+                                    <ul>
+                                        <li><a href="#" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#" title="google-plus"><i class="fa fa-google-plus"></i></a></li>
+                                        <li><a href="#" title="facebook"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#" title="youtube"><i class="fa fa-youtube"></i></a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="widgets_container newsletter">
+                                <h3>Nhận Thông Tin Từ Chúng Tôi</h3>
+                                <div class="newleter-content">
+                                    <p>Chât lượng vượt trội. Đăng ký để được miễn phí vận chuyển và trả hàng cho đơn hàng đầu tiên của bạn.</p>
+                                    <div class="subscribe_form">
+@*                                        <form id="mc-form" class="mc-form footer-newsletter">
+                                            <input id="mc-email" type="email" autocomplete="off" placeholder="Email..." />
+                                            <button id="mc-submit">Đăng Ký !</button>
+                                        </form>*@
+                                        <!-- mailchimp-alerts Start -->
+                                        <div class="mailchimp-alerts text-centre">
+                                            <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
+                                            <div class="mailchimp-success"></div><!-- mailchimp-success end -->
+                                            <div class="mailchimp-error"></div><!-- mailchimp-error end -->
+                                        </div><!-- mailchimp-alerts end -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer_bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="copyright_area">
+                            <p> &copy; @DateTime.Now.Year <strong> </strong> Made with ❤️ by <a href="#" target="_blank"><strong>THN</strong></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!--footer area end-->
+
+    <!-- Plugins JS -->
+    <script src="/themes/js/plugins.js" type="text/javascript"></script>
+
+    <!-- Main JS -->
+    <script src="/themes/js/main.js" type="text/javascript"></script>
+    <script src="/js/site.js"></script>
+    <script>
+        var site = new SiteController();
+        site.initialize();
+    </script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
+

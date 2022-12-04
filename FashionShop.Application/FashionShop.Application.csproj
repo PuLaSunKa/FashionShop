@@ -1,13 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
-    <Folder Include="Catalog\Products\" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.25.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
+	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FashionShop.Data\FashionShop.Data.csproj" />
+    <ProjectReference Include="..\FashionShop.Utilities\FashionShop.Utilities.csproj" />
+    <ProjectReference Include="..\FashionShop.ViewModels\FashionShop.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,45 @@
+﻿@using System.Globalization;
+@model FashionShop.ViewModels.System.Users.LoginRequest
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var culture = CultureInfo.CurrentCulture.Name;
+}
+<section class="user">
+    <div class="user_options-container">
+        <div class="user_options-text">
+            <div class="user_options-unregistered">
+
+            </div>
+
+            <div class="user_options-registered">
+                <h2 class="user_unregistered-title">Bạn chưa có tài khoản?</h2>
+                <p class="user_unregistered-text">Hãy nhấn nút "Đăng ký" để tạo tài khoản!</p>
+                <a href="/@culture/Account/Register" class="user_unregistered-signup">Đăng Ký</a>
+            </div>
+        </div>
+
+        <div class="user_options-forms bounceLeft" id="user_options-forms" style="min-height: 420px;">
+
+            <div class="user_forms-signup">
+                <h2 class="forms_title">Đăng Ký</h2>
+                    <form class="forms_form" action="/@culture/Account/Login" method="post">
+                        <fieldset class="forms_fieldset">
+                            <div class="forms_field">
+                                <input class="span3" type="text" asp-for="UserName" placeholder="Email" class="forms_field-input" required="" autofocus="">
+                                <span asp-validation-for="UserName" class="text-error"></span>
+                            </div>
+                            <div class="forms_field">
+                                <input type="password"  class="span3" asp-for="Password" placeholder="Password" class="forms_field-input" required="">
+                                <span asp-validation-for="Password" class="text-error"></span>
+                            </div>
+                        </fieldset>
+                        <div class="forms_buttons">
+                            @*<button type="button" class="forms_buttons-forgot">Forgot password?</button>*@
+                            <input type="submit" value="Log In" class="forms_buttons-action">
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</section>

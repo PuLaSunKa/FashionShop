@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FashionShop.Data.Entities
+
 {
     public class Cart
     {
@@ -15,7 +14,7 @@ namespace FashionShop.Data.Entities
 
         public Guid UserId { get; set; }
 
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
 
         public DateTime DateCreated { get; set; }
 

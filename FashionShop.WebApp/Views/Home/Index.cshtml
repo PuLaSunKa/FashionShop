@@ -1,8 +1,236 @@
-﻿@{
+﻿@model HomeViewModel
+@using FashionShop.ViewModels.Catalog.Products;
+@using System.Globalization;
+@inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _loc;
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+@{
+    var culture = CultureInfo.CurrentCulture.Name;
+}
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!--slider area start-->
+<div class="slider_area slider_style home_three_slider owl-carousel">
+    <div class="single_slider" data-bgimg="/images/slide/slider1.jpg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="slider_content content_three">
+                        <img src="/images/slide/fshop.png" alt="">
+                        <p>bộ sưu tập quần áo mùa đông của quần áo len đã trở lại với ưu đãi 50%</p>
+                        <a href="@Url.Action( "Index", "SanPham")">Khám Phá Ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="single_slider" data-bgimg="/images/slide/slider2.jpg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="slider_content content_three">
+                        <img src="/images/slide/fshop.png" alt="">
+                        <p>bộ sưu tập quần áo mùa đông của quần áo len đã trở lại với ưu đãi 50%</p>
+                        <a href="@Url.Action( "Index", "SanPham")">Khám Phá Ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="single_slider" data-bgimg="/images/slide/slider3.jpg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="slider_content content_three">
+                        <img src="/images/slide/fshop.png" alt="">
+                        <p>bộ sưu tập quần áo mùa đông của quần áo len đã trở lại với ưu đãi 50%</p>
+                        <a href="@Url.Action( "Index", "SanPham")">Khám Phá Ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!--slider area end-->
+
+    <!--banner area start-->
+    <div class="banner_section banner_section_three">
+        <div class="container-fluid">
+            <div class="row ">
+               <div class="col-lg-4 col-md-6">
+                    <div class="banner_area">
+                        <div class="banner_thumb">
+                            <a href="@Url.Action( "Index", "Product")"><img src="/images/marketing/1.png" alt="#"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="banner_area">
+                        <div class="banner_thumb">
+                            <a href="@Url.Action( "Index", "Product")"><img src="/images/marketing/2.png" alt="#"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="banner_area bottom">
+                        <div class="banner_thumb">
+                            <a href="@Url.Action( "Index", "Product")"><img src="/images/marketing/3.png" alt="#"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--banner area end-->
+
+<!--product section area start-->
+
+<!--product section area end-->
+<!--product section area start-->
+<section class="product_section womens_product bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2>Sản phẩm nổi bật</h2>
+                    <p>Các sản phẩm ấn tượng</p>
+                </div>
+            </div>
+        </div>
+        <div class="product_area">
+            <div class="row">
+                <div class="product_carousel product_three_column4 owl-carousel">
+                    @foreach (var item in Model.LatestProducts)
+                    {
+                        var url = $"/{culture}/{_loc["productUrl"]}/{item.Id}";
+                        <div class="col-lg-3">
+                            <div class="single_product">
+                                <div class="product_thumb">
+                                    <a class="primary_img" href="@url"><img src="@(Configuration["BaseAddress"] + item.ThumbnailImage)" alt="@item.Name"></a>
+                                    @*<a class="secondary_img" href="product-details.html"><img src="~/Content/images/product/product5.jpg" alt=""></a>*@
+
+                                    <div class="quick_button">
+                                        <a href="@url" title="quick_view">Xem sản phẩm</a>
+                                    </div>
+
+                                </div>
+                                <div class="product_content">
+                                    <h3><a href="@url">@item.Name</a></h3>
+                                    @if (@item.Price >= @item.OriginalPrice)
+                                    {
+                                        <span class="current_price">@String.Format("{0:0,0}", @item.Price) đ</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="current_price">@String.Format("{0:0,0}", @item.Price) đ</span>
+                                        <span class="old_price">@String.Format("{0:0,0}", @item.OriginalPrice) đ</span>
+                                    }
+                                    <a class="btn btn-add-cart" data-id="@item.Id" href="#"><localize>Add to</localize> <i class="icon-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<section class="product_section womens_product bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2>Sản phẩm mới nhất</h2>
+                    <p>Các sản phẩm mới nhất</p>
+                </div>
+            </div>
+        </div>
+        <div class="product_area">
+            <div class="row">
+                <div class="product_carousel product_three_column4 owl-carousel">
+                    @foreach (var item in Model.LatestProducts)
+                    {
+                        var url = $"/{culture}/{_loc["productUrl"]}/{item.Id}";
+                        <div class="col-lg-3">
+                            <div class="single_product">
+                                <div class="product_thumb">
+                                    <a class="primary_img" href="@url"><img src="@(Configuration["BaseAddress"] + item.ThumbnailImage)" alt="@item.Name"></a>
+                                    @*<a class="secondary_img" href="product-details.html"><img src="~/Content/images/product/product5.jpg" alt=""></a>*@
+
+                                    <div class="quick_button">
+                                        <a href="@url" title="quick_view">Xem sản phẩm</a>
+                                    </div>
+
+                                </div>
+                                <div class="product_content">
+                                    <h3><a href="@url">@item.Name</a></h3>
+                                    @if(@item.Price >= @item.OriginalPrice)
+                                    {
+                                        <span class="current_price">@String.Format("{0:0,0}", @item.Price) đ</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="current_price">@String.Format("{0:0,0}", @item.Price) đ</span>
+                                        <span class="old_price">@String.Format("{0:0,0}", @item.OriginalPrice) đ</span>
+                                    }
+                                    <a class="btn btn-add-cart" data-id="@item.Id" href="#"><localize>Add to</localize> <i class="icon-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!--product section area end-->
+<!--blog section area start-->
+<section class="blog_section blog_section_three">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2>Bài viết mới nhất</h2>
+                    <p>Cập nhật xu thế thời trang</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="blog_wrapper blog_column3 owl-carousel">
+               @foreach (var item in Model.LatestPosts)
+                {
+                    var url = $"/{culture}/{_loc["postUrl"]}/{item.Id}";
+                    <div class="col-lg-4">
+                        <div class="single_blog">
+                            <div class="blog_thumb">
+                                <a href="@url"><img src="~/images/slide/slider2.jpg" alt="@item.Title"></a>
+                                <div class="blog_icon">
+                                    <a href="@url"></a>
+                                </div>
+                            </div>
+                            <div class="blog_content">
+                                <h3><a href="@url">@item.Title</a></h3>
+                                <div class="author_name">
+                                    <p>
+                                        <span class="post_by">Đăng bởi</span>
+                                        <span class="themes">@item.Author</span>
+                                        / @item.DateCreate.Day tháng @item.DateCreate.Month, @item.DateCreate.Year
+                                    </p>
+
+                                </div>
+                                <div class="post_desc">
+                                    <p>@Html.Raw(item.Description) ...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+<!--blog section area end-->

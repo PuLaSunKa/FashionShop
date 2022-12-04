@@ -59,7 +59,7 @@ namespace FashionShop.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime>("Dob")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -68,10 +68,14 @@ namespace FashionShop.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -107,31 +111,6 @@ namespace FashionShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppUsers", (string)null);
-                });
-
-            modelBuilder.Entity("FashionShop.Data.Entities.Brand", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("BrandName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("FashionShop.Data.Entities.Cart", b =>
@@ -174,18 +153,43 @@ namespace FashionShop.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                    b.Property<bool>("IsShowOnHome")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
+                });
+
+            modelBuilder.Entity("FashionShop.Data.Entities.CategoryTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LanguageId")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("CategoryTranslations", (string)null);
                 });
 
             modelBuilder.Entity("FashionShop.Data.Entities.Contact", b =>
@@ -221,6 +225,26 @@ namespace FashionShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Contacts", (string)null);
+                });
+
+            modelBuilder.Entity("FashionShop.Data.Entities.Language", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages", (string)null);
                 });
 
             modelBuilder.Entity("FashionShop.Data.Entities.Order", b =>
@@ -297,35 +321,27 @@ namespace FashionShop.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Posts", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Post", (string)null);
                 });
 
             modelBuilder.Entity("FashionShop.Data.Entities.Product", b =>
@@ -336,26 +352,24 @@ namespace FashionShop.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("DateCreate")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool?>("IsFeatured")
                         .HasColumnType("bit");
 
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<int>("Stock")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<int>("QuantityInStock")
+                    b.Property<int>("ViewCount")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0);
@@ -374,8 +388,8 @@ namespace FashionShop.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Caption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -404,21 +418,6 @@ namespace FashionShop.Data.Migrations
                     b.ToTable("ProductImages", (string)null);
                 });
 
-            modelBuilder.Entity("FashionShop.Data.Entities.ProductInBrand", b =>
-                {
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BrandId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductInBrands", (string)null);
-                });
-
             modelBuilder.Entity("FashionShop.Data.Entities.ProductInCategory", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -432,6 +431,45 @@ namespace FashionShop.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductInCategories", (string)null);
+                });
+
+            modelBuilder.Entity("FashionShop.Data.Entities.ProductTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Details")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("LanguageId")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductTranslations", (string)null);
                 });
 
             modelBuilder.Entity("FashionShop.Data.Entities.Promotion", b =>
@@ -459,11 +497,9 @@ namespace FashionShop.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductCategoryIds")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductIds")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
@@ -488,23 +524,13 @@ namespace FashionShop.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ExternalTransactionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Fee")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Provider")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Result")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
@@ -639,6 +665,25 @@ namespace FashionShop.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("FashionShop.Data.Entities.CategoryTranslation", b =>
+                {
+                    b.HasOne("FashionShop.Data.Entities.Category", "Category")
+                        .WithMany("CategoryTranslations")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionShop.Data.Entities.Language", "Language")
+                        .WithMany("CategoryTranslations")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Language");
+                });
+
             modelBuilder.Entity("FashionShop.Data.Entities.Order", b =>
                 {
                     b.HasOne("FashionShop.Data.Entities.AppUser", "AppUser")
@@ -669,6 +714,17 @@ namespace FashionShop.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("FashionShop.Data.Entities.Post", b =>
+                {
+                    b.HasOne("FashionShop.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("FashionShop.Data.Entities.ProductImage", b =>
                 {
                     b.HasOne("FashionShop.Data.Entities.Product", "Product")
@@ -676,25 +732,6 @@ namespace FashionShop.Data.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("FashionShop.Data.Entities.ProductInBrand", b =>
-                {
-                    b.HasOne("FashionShop.Data.Entities.Brand", "Brand")
-                        .WithMany("ProductInBrands")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FashionShop.Data.Entities.Product", "Product")
-                        .WithMany("ProductInBrands")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
 
                     b.Navigation("Product");
                 });
@@ -718,6 +755,25 @@ namespace FashionShop.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("FashionShop.Data.Entities.ProductTranslation", b =>
+                {
+                    b.HasOne("FashionShop.Data.Entities.Language", "Language")
+                        .WithMany("ProductTranslations")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionShop.Data.Entities.Product", "Product")
+                        .WithMany("ProductTranslations")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Language");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("FashionShop.Data.Entities.Transaction", b =>
                 {
                     b.HasOne("FashionShop.Data.Entities.AppUser", "AppUser")
@@ -735,17 +791,23 @@ namespace FashionShop.Data.Migrations
 
                     b.Navigation("Orders");
 
-                    b.Navigation("Transactions");
-                });
+                    b.Navigation("Posts");
 
-            modelBuilder.Entity("FashionShop.Data.Entities.Brand", b =>
-                {
-                    b.Navigation("ProductInBrands");
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("FashionShop.Data.Entities.Category", b =>
                 {
+                    b.Navigation("CategoryTranslations");
+
                     b.Navigation("ProductInCategories");
+                });
+
+            modelBuilder.Entity("FashionShop.Data.Entities.Language", b =>
+                {
+                    b.Navigation("CategoryTranslations");
+
+                    b.Navigation("ProductTranslations");
                 });
 
             modelBuilder.Entity("FashionShop.Data.Entities.Order", b =>
@@ -761,9 +823,9 @@ namespace FashionShop.Data.Migrations
 
                     b.Navigation("ProductImages");
 
-                    b.Navigation("ProductInBrands");
-
                     b.Navigation("ProductInCategories");
+
+                    b.Navigation("ProductTranslations");
                 });
 #pragma warning restore 612, 618
         }
