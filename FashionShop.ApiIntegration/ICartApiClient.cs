@@ -13,7 +13,7 @@ namespace FashionShop.ApiIntegration
     {       
         Task<List<CartVm>> GetAllByUserId(string languageId, string userId);
 
-        Task<List<CartVm>> GetAllByUserIdAndProductId(string languageId, string userId, int productId);
+        Task<CartVm> FindCartByProductIdOfUser(string languageId, string userId, int productId);
 
         Task<CartVm> GetById(string languageId, int id);
 

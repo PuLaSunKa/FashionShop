@@ -27,6 +27,7 @@ namespace FashionShop.BackendApi.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CartCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -65,6 +66,7 @@ namespace FashionShop.BackendApi.Controllers
             return Ok();
         }
         [HttpGet("user/{userId}/{languageId}")]
+        [Authorize]
         public async Task<IActionResult> GetAllByUserId(string languageId , string userId)
         {
             var ListCart = await _cartService.GetAllByUserId(languageId, userId);
@@ -73,9 +75,10 @@ namespace FashionShop.BackendApi.Controllers
             return Ok(ListCart);
         }
         [HttpGet("user/{userId}/product/{productId}/{languageId}")]
+        [Authorize]
         public async Task<IActionResult> GetAllByUserIdAndProductId(string languageId, string userId, int productId)
         {
-            var ListCart = await _cartService.GetAllByUserIdAndProductId(languageId, userId, productId);
+            var ListCart = await _cartService.FindCartByProductIdOfUser(languageId, userId, productId);
             if (ListCart == null)
                 return BadRequest("Cannot find list cart of user");
             return Ok(ListCart);

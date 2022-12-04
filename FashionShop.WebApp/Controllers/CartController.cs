@@ -41,11 +41,14 @@ namespace FashionShop.WebApp.Controllers
             _cartApiClient = cartApiClient;
         }
         public async Task<IActionResult> Index()
-        {           
+        {
+            /*
             var culture = CultureInfo.CurrentCulture.Name;
             var userId = User.FindFirstValue(ClaimTypes.Sid);
             var currentCart = await _cartApiClient.GetAllByUserId(culture, userId);
             return View(currentCart);
+            */
+            return View();
         }
         /*
         [HttpGet]
@@ -89,27 +92,36 @@ namespace FashionShop.WebApp.Controllers
         }
         */
         [HttpGet]
-        public IActionResult GetListItems()
+        public async Task<IActionResult> GetListItems()
         {
-            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
-            List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
-            if (session != null)
-                currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
-            return Ok(currentCart);
+            var userId = User.FindFirstValue(ClaimTypes.Sid);
+            if(userId == null)
+            {
+                var session = HttpContext.Session.GetString(SystemConstants.CartSession);
+                List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
+                if (session != null)
+                    currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
+                return Ok(currentCart);
+            }
+            else
+            {
+                var culture = CultureInfo.CurrentCulture.Name;
+                List<CartVm> currentCart = new List<CartVm>();
+                currentCart = await _cartApiClient.GetAllByUserId(culture, userId);
+                return View(currentCart);
+            }
         }
 
-        public async Task<IActionResult> AddToCart(int id, int quatity)
+        public async Task<IActionResult> AddToCart(int productId, int quatity)
         {
             var culture = CultureInfo.CurrentCulture.Name;
             var userId = User.FindFirstValue(ClaimTypes.Sid);
-            Guid userID = Guid.Parse(userId);
             
-            
-            var product = await _productApiClient.GetById(id, culture);
+            var product = await _productApiClient.GetById(productId, culture);
             int sl;
 
-            var lst = await _cartApiClient.GetAllByUserIdAndProductId(culture, userId, id);           
-            if (lst.Count == 0)
+            var findCart = await _cartApiClient.FindCartByProductIdOfUser(culture, userId, productId);           
+            if (findCart == null)
             {
                 if (quatity != null || quatity > 0)
                 {
@@ -125,7 +137,7 @@ namespace FashionShop.WebApp.Controllers
                     Quantity = sl,
                     UserId = userId,
                     Price = product.Price,
-                    ProductId = id,
+                    ProductId = productId,
                 };
                 var result = await _cartApiClient.CreateCart(request);
                 if (result)
@@ -148,11 +160,10 @@ namespace FashionShop.WebApp.Controllers
                 {
                     sl = 1;
                 }
-                var cart = lst[0];
                 var updateRequest = new CartUpdateRequest()
                 {
-                    Id = cart.Id,
-                    Quantity = sl+ cart.Quantity,
+                    Id = findCart.Id,
+                    Quantity = sl+ findCart.Quantity,
                 };
                 var result = await _cartApiClient.UpdateCart(updateRequest);
                 if (result)
@@ -167,8 +178,6 @@ namespace FashionShop.WebApp.Controllers
                 }
             }
         }
-        [HttpPost]
-        [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateCart(int id, int quantity)
         {
             int sl;

@@ -8,7 +8,7 @@
         const culture = $('#hidCulture').val();
         $.ajax({
             type: "GET",
-            url: "/" + culture + '/Cart/Index',
+            url: "/" + culture + '/Cart/GetListItems',
             success: function (res) {
                 $('#lbl_number_items_header').text(res.length);
             }

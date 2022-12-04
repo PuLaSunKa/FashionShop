@@ -57,22 +57,13 @@ namespace FashionShop.ApiIntegration
 
         public async Task<List<CartVm>> GetAllByUserId(string languageId, string userId)
         {
-            if (string.IsNullOrEmpty(languageId))
-            {
-                languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-            }
             var data = await GetListAsync<CartVm>($"/api/carts/user/{userId}/{languageId}/");
             return data;
         }
 
-        public async Task<List<CartVm>> GetAllByUserIdAndProductId(string languageId, string userId, int productId)
+        public async Task<CartVm> FindCartByProductIdOfUser(string languageId, string userId, int productId)
         {
-            if (string.IsNullOrEmpty(languageId))
-            {
-                languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-            }
-            var data = await GetListAsync<CartVm>($"/api/carts/user/{userId}/product/{productId}/{languageId}/");
-            return data;
+            return await GetAsync<CartVm>($"/api/carts/user/{userId}/product/{productId}/{languageId}/");
         }
 
         public async Task<CartVm> GetById(string languageId, int id)
