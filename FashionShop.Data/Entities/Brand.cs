@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace FashionShop.Data.Entities
 {
-    public class Category
+    public class Brand
     {
         public int Id { get; set; }
-        public string CategoryName { get; set; }
+        public string BrandName { get; set; }
+        public string? Image{ get; set; }
         public Status Status { get; set; }
-        public List<ProductInCategory> ProductInCategories { get; set; }
+        public List<ProductInBrand> ProductInBrands { get; set; }
     }
 }

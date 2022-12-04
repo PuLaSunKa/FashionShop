@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace FashionShop.Data.Configurations
 {
-    internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    internal class BrandConfiguration : IEntityTypeConfiguration<Brand>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<Brand> builder)
         {
-            builder.ToTable("Categories");
+            builder.ToTable("Brands");
 
             builder.HasKey(x => x.Id);
 

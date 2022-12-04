@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FashionShop.Data.Configurations
 {
@@ -14,7 +16,6 @@ namespace FashionShop.Data.Configurations
             builder.ToTable("AppRoles");
 
             builder.Property(x => x.Description).HasMaxLength(200).IsRequired();
-
         }
     }
 }

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace FashionShop.Data.Entities
 {
-    public class ProductInCategory
+    public class ProductInBrand
     {
         public int ProductId { get; set; }
 
         public Product Product { get; set; }
 
-        public int CategoryId { get; set; }
+        public int BrandId { get; set; }
 
-        public Category Category { get; set; }
+        public Brand Brand { get; set; }
     }
 }

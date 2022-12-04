@@ -5,19 +5,9 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FashionShop.WebApp", "FashionShop.WebApp\FashionShop.WebApp.csproj", "{79872988-7A19-40A6-BCD8-2B86D0300598}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FashionShop.Data", "FashionShop.Data\FashionShop.Data.csproj", "{F944D04B-75F6-4F81-B350-8DC60036BADA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionShop.Data", "FashionShop.Data\FashionShop.Data.csproj", "{F944D04B-75F6-4F81-B350-8DC60036BADA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FashionShop.Application", "FashionShop.Application\FashionShop.Application.csproj", "{500D4F58-D62C-472A-9BEC-DF2FDD34705B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FashionShop.Utilities", "FashionShop.Utilities\FashionShop.Utilities.csproj", "{E1CA7201-8CB5-44E6-BCA6-6FCE5DC27501}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FashionShop.ViewModels", "FashionShop.ViewModels\FashionShop.ViewModels.csproj", "{61F5EE66-4BE1-4074-B236-6F833E0A159A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FashionShop.BackendApi", "FashionShop.BackendApi\FashionShop.BackendApi.csproj", "{4C4C78F4-BE7A-46FF-ACC3-0C6C1B41334B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FashionShop.ApiIntegration", "FashionShop.ApiIntegration\FashionShop.ApiIntegration.csproj", "{34D59AF2-8F66-4FF8-8BCD-98E51E6E0666}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionShop.AdminApp", "FashionShop.AdminApp\FashionShop.AdminApp.csproj", "{2C14993A-E4FB-40D7-8C31-86D9A3206BB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionShop.Application", "FashionShop.Application\FashionShop.Application.csproj", "{500D4F58-D62C-472A-9BEC-DF2FDD34705B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,26 +27,6 @@ Global
 		{500D4F58-D62C-472A-9BEC-DF2FDD34705B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{500D4F58-D62C-472A-9BEC-DF2FDD34705B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{500D4F58-D62C-472A-9BEC-DF2FDD34705B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1CA7201-8CB5-44E6-BCA6-6FCE5DC27501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1CA7201-8CB5-44E6-BCA6-6FCE5DC27501}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1CA7201-8CB5-44E6-BCA6-6FCE5DC27501}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1CA7201-8CB5-44E6-BCA6-6FCE5DC27501}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61F5EE66-4BE1-4074-B236-6F833E0A159A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61F5EE66-4BE1-4074-B236-6F833E0A159A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61F5EE66-4BE1-4074-B236-6F833E0A159A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61F5EE66-4BE1-4074-B236-6F833E0A159A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C4C78F4-BE7A-46FF-ACC3-0C6C1B41334B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C4C78F4-BE7A-46FF-ACC3-0C6C1B41334B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C4C78F4-BE7A-46FF-ACC3-0C6C1B41334B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C4C78F4-BE7A-46FF-ACC3-0C6C1B41334B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34D59AF2-8F66-4FF8-8BCD-98E51E6E0666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34D59AF2-8F66-4FF8-8BCD-98E51E6E0666}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34D59AF2-8F66-4FF8-8BCD-98E51E6E0666}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34D59AF2-8F66-4FF8-8BCD-98E51E6E0666}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C14993A-E4FB-40D7-8C31-86D9A3206BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C14993A-E4FB-40D7-8C31-86D9A3206BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C14993A-E4FB-40D7-8C31-86D9A3206BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C14993A-E4FB-40D7-8C31-86D9A3206BB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FashionShop.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,13 @@ namespace FashionShop.Data.Entities
 {
     public class Post
     {
-        public int Id { get; set; }
-        public string? Title { get; set; }
-        public string? Description { get; set; }
-        public DateTime DateCreate { get; set; }
-        public string? Author { get; set; }
-        public Guid UserId { get; set; }
+        public int Id { set; get; }
+        public string Title { set; get; }
+        public string Description { set; get; }
+        public string Url { set; get; }
 
-        public AppUser? AppUser { get; set; }
+        public string Image { get; set; }
+        public int SortOrder { get; set; }
+        public Status Status { set; get; }
     }
 }

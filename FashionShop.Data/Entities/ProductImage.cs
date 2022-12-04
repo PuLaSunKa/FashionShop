@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FashionShop.Data.Entities
 {
@@ -10,9 +12,9 @@ namespace FashionShop.Data.Entities
 
         public int ProductId { get; set; }
 
-        public string? ImagePath { get; set; }
+        public string ImagePath { get; set; }
 
-        public string? Caption { get; set; }
+        public string Caption { get; set; }
 
         public bool IsDefault { get; set; }
 
@@ -22,6 +24,6 @@ namespace FashionShop.Data.Entities
 
         public long FileSize { get; set; }
 
-        public Product? Product { get; set; }
+        public Product Product { get; set; }
     }
 }
