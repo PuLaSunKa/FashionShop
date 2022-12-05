@@ -4,7 +4,7 @@
         AddtoCartEvents();
         loadCart();
     }
-    function loadCart() {    
+    function loadCart() {
         const culture = $('#hidCulture').val();
         $.ajax({
             type: "GET",
@@ -22,9 +22,9 @@
             const id = $(this).data('id');
             $.ajax({
                 type: "POST",
-                url: "/" + culture +'/Cart/AddToCart',
+                url: "/" + culture + '/Cart/AddToCart',
                 data: {
-                    id: id,
+                    productId: id,
                     quatity: 1
                 },
                 success: function (res) {
@@ -42,7 +42,7 @@
         // Write your JavaScript code.
         $('body').on('click', '.btn-add-to-cart', function (e) {
             e.preventDefault();
-            const culture = $('#hidCulture').val(); 
+            const culture = $('#hidCulture').val();
             const quatity = $('#idquatity').val();
             const id = $(this).data('id');
             $.ajax({
