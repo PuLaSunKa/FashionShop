@@ -1,4 +1,5 @@
 ﻿@using System.Globalization;
+
 @{
     var culture = CultureInfo.CurrentCulture.Name;
 }
@@ -51,7 +52,7 @@
             </div>
             <div class="cart_area">
                 <div class="cart_link">
-                    <a href="/@culture/cart"><i class="fa fa-shopping-basket"></i><span id="lbl_number_items_header">0</span> sản phẩm</a>
+                    <a href="@Url.ActionLink("Index","Cart")"><i class="fa fa-shopping-basket"></i><span id="lbl_number_items_header">0</span> sản phẩm</a>
                 </div>
             </div>
             <div id="menu" class="text-left ">
@@ -187,7 +188,7 @@
                         <div class="col-lg-4">
                             <div class="cart_area">
                                 <div class="cart_link">
-                                    <a href="/@culture/cart"><i class="fa fa-shopping-basket"></i><span id="lbl_number_items_header">0</span> sản phẩm</a>
+                                    <a href="@Url.ActionLink("Index","Cart")"><i class="fa fa-shopping-basket"></i><span id="lbl_number_items_header">0</span> sản phẩm</a>
                                 </div>
                             </div>
                         </div>

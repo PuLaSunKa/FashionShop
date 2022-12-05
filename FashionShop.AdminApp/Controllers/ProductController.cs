@@ -121,6 +121,7 @@ namespace FashionShop.AdminApp.Controllers
                 Description = product.Description,
                 Details = product.Details,
                 Name = product.Name,
+                Price = product.Price,
             };
             return View(editVm);
         }

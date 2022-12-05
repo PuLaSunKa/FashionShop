@@ -1,34 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using FashionShop.AdminApp.Controllers;
 using FashionShop.ApiIntegration;
+using FashionShop.Data.EF;
 using FashionShop.Utilities.Constants;
+using FashionShop.ViewModels.Catalog.Carts;
+using FashionShop.ViewModels.Catalog.Posts;
+using FashionShop.ViewModels.Catalog.Products;
 using FashionShop.ViewModels.Sales;
 using FashionShop.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FashionShop.WebApp.Controllers
 {
     public class CartController : Controller
     {
         private readonly IProductApiClient _productApiClient;
+        private readonly IConfiguration _configuration;
+        private readonly IUserApiClient _userApiClient;
+        private readonly ICartApiClient _cartApiClient;
 
-        public CartController(IProductApiClient productApiClient)
+        public CartController(IProductApiClient productApiClient,
+            IUserApiClient userApiClient,
+            IConfiguration configuration,
+            ICartApiClient cartApiClient)
         {
             _productApiClient = productApiClient;
+            _userApiClient = userApiClient;
+            _configuration = configuration;
+            _cartApiClient = cartApiClient;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            /*
+            var culture = CultureInfo.CurrentCulture.Name;
+            var userId = User.FindFirstValue(ClaimTypes.Sid);
+            var currentCart = await _cartApiClient.GetAllByUserId(culture, userId);
+            return View(currentCart);
+            */
             return View();
         }
-
-        public IActionResult Checkout()
+        /*
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
         {
-            return View(GetCheckoutViewModel());
+            var culture = CultureInfo.CurrentCulture.Name;
+            var userId = User.FindFirstValue(ClaimTypes.Sid);
+            var currentCart = await _cartApiClient.GetAllByUserId(culture, userId);
+            var checkoutVm = new CheckoutViewModel()
+            {
+                CartItems = currentCart,
+                CheckoutModel = new CheckoutRequest()
+            };
+            return View(checkoutVm);
         }
 
         [HttpPost]
@@ -56,93 +90,118 @@ namespace FashionShop.WebApp.Controllers
             TempData["SuccessMsg"] = "Order puschased successful";
             return View(model);
         }
-
+        */
         [HttpGet]
-        public IActionResult GetListItems()
+        public async Task<IActionResult> GetListItems()
         {
-            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
-            List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
-            if (session != null)
-                currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
-            return Ok(currentCart);
+            var userId = User.FindFirstValue(ClaimTypes.Sid);
+            if(userId == null)
+            {
+                var session = HttpContext.Session.GetString(SystemConstants.CartSession);
+                List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
+                if (session != null)
+                    currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
+                return Ok(currentCart);
+            }
+            else
+            {
+                var culture = CultureInfo.CurrentCulture.Name;
+                List<CartVm> currentCart = new List<CartVm>();
+                currentCart = await _cartApiClient.GetAllByUserId(culture, userId);
+                return View(currentCart);
+            }
         }
 
-        public async Task<IActionResult> AddToCart(int id, string languageId, int quatity)
+        public async Task<IActionResult> AddToCart(int productId, int quatity)
         {
-            var product = await _productApiClient.GetById(id, languageId);
+            var culture = CultureInfo.CurrentCulture.Name;
+            var userId = User.FindFirstValue(ClaimTypes.Sid);
+            
+            var product = await _productApiClient.GetById(productId, culture);
             int sl;
-            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
-            List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
-            if (session != null)
+
+            var findCart = await _cartApiClient.FindCartByProductIdOfUser(culture, userId, productId);           
+            if (findCart == null)
             {
-                currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
+                if (quatity != null || quatity > 0)
+                {
+                    sl = quatity;
+                }
+                else
+                {
+                    sl = 1;
+                }
+                var request = new CartCreateRequest()
+                {
+                    LanguageId = culture,
+                    Quantity = sl,
+                    UserId = userId,
+                    Price = product.Price,
+                    ProductId = productId,
+                };
+                var result = await _cartApiClient.CreateCart(request);
+                if (result)
+                {
+                    ViewBag.SuccessMsg = "Đã thêm vào giỏ hàng";
+                    return RedirectToAction("Index","Home");
+                }
+                else{
+                    ViewBag.SuccessMsg = "Thêm vào giỏ hàng thất bại!";
+                    return RedirectToAction("Index", "Home");
+                }
             }
-                
-            if(quatity != null || quatity > 0)
+            else
             {
-                sl = quatity;
+                if (quatity != null || quatity > 0)
+                {
+                    sl = quatity;
+                }
+                else
+                {
+                    sl = 1;
+                }
+                var updateRequest = new CartUpdateRequest()
+                {
+                    Id = findCart.Id,
+                    Quantity = sl+ findCart.Quantity,
+                };
+                var result = await _cartApiClient.UpdateCart(updateRequest);
+                if (result)
+                {
+                    ViewBag.SuccessMsg = "Đã thêm vào giỏ hàng";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.SuccessMsg = "Thêm vào giỏ hàng thất bại!";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+        }
+        public async Task<IActionResult> UpdateCart(int id, int quantity)
+        {
+            int sl;
+            var culture = CultureInfo.CurrentCulture.Name;
+            var cart = await _cartApiClient.GetById(culture, id);
+            if (quantity != null || quantity > 0)
+            {
+                sl = quantity;
             }
             else
             {
                 sl = 1;
             }
-            if (currentCart.Any(x => x.ProductId == id))
+            var updateRequest = new CartUpdateRequest()
             {
-                sl = currentCart.First(x => x.ProductId == id).Quantity + sl;
-            }
-
-            var cartItem = new CartItemViewModel()
-            {
-                ProductId = id,
-                Description = product.Description,
-                Image = product.ThumbnailImage,
-                Name = product.Name,
-                Price = product.Price,
-                Quantity = sl
+                Id = id,
+                Quantity = sl + cart.Quantity,
             };
-
-            currentCart.Add(cartItem);
-
-            HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
-            return Ok(currentCart);
-        }
-
-        public IActionResult UpdateCart(int id, int quantity)
-        {
-            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
-            List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
-            if (session != null)
-                currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
-
-            foreach (var item in currentCart)
+            var result = await _cartApiClient.UpdateCart(updateRequest);
+            if (result)
             {
-                if (item.ProductId == id)
-                {
-                    if (quantity == 0)
-                    {
-                        currentCart.Remove(item);
-                        break;
-                    }
-                    item.Quantity = quantity;
-                }
+                return RedirectToAction("Index");
             }
-
-            HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
-            return Ok(currentCart);
-        }
-
-        private CheckoutViewModel GetCheckoutViewModel()
-        {
-            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
-            List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
-            if (session != null)
-                currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
-            var checkoutVm = new CheckoutViewModel()
-            {
-                CartItems = currentCart,
-                CheckoutModel = new CheckoutRequest()
-            };
-            return checkoutVm;
+            return Ok();
         }
     }
 }

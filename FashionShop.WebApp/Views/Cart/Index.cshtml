@@ -30,6 +30,14 @@
 </div>
 <!--breadcrumbs area end-->
 <!-- shopping cart area start -->
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
 <div class="shopping_cart_area">
     <div class="container">
         <form action="#">
@@ -39,18 +47,17 @@
                         <div class="cart_page table-responsive">
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th class="product_remove">Delete</th>
+                                    <tr>                                     
                                         <th class="product_thumb">Image</th>
                                         <th class="product_name">Product</th>
                                         <th class="product-price">Price</th>
                                         <th class="product_quantity">Quantity</th>
                                         <th class="product_total">Total</th>
+                                        <th class="product_remove">Delete</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-
-                                    </tbody>
+                                <tbody id ="cart_body">
+                                </tbody>
                             </table>
                         </div>
                         <div class="cart_submit">
@@ -92,39 +99,3 @@
     </div>
 </div>
 <!-- shopping cart area end -->
-
-
-<ul class="breadcrumb">
-    <li><a href="index.html">Home</a> <span class="divider">/</span></li>
-    <li class="active"> SHOPPING CART</li>
-</ul>
-
-<h3>
-    SHOPPING CART [ <small><span id="lbl_number_of_items">0</span> Item(s) </small>]
-    <a href="/" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a>
-</h3>
-
-<hr class="soft" />
-
-<table class="table table-bordered" id="tbl_cart">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Description</th>
-            <th>Quantity/Update</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody id="cart_body">
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="4" style="text-align:right"><strong>TOTAL =</strong></td>
-            <td class="label label-important" style="display:block"> <strong> <span id="lbl_total"></span> </strong></td>
-        </tr>
-    </tfoot>
-</table>
-
-<a href="/" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
-<a href="/@culture/Cart/Checkout" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>

@@ -311,6 +311,7 @@ namespace FashionShop.Application.Catalog.Products
             productTranslations.Name = request.Name;
             productTranslations.Description = request.Description;
             productTranslations.Details = request.Details;
+            product.Price = request.Price;
 
             //Save image
             if (request.ThumbnailImage != null)

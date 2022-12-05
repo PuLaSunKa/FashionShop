@@ -18,16 +18,17 @@ namespace FashionShop.BackendApi.Controllers
         {
             _cartService = cartService;
         }
-        [HttpGet("{cartId}")]
+        [HttpGet("{cartId}/{languageId}")]
         public async Task<IActionResult> GetById( string languageId, int cartId)
         {
             var cart = await _cartService.GetById(languageId, cartId);
             return Ok(cart);
         }
 
-        [HttpPost("{languageId}")]
+        [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Create(string languageId, [FromForm] CartCreateRequest request)
+        [Authorize]
+        public async Task<IActionResult> Create([FromBody] CartCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -37,14 +38,14 @@ namespace FashionShop.BackendApi.Controllers
             if (cartId == 0)
                 return BadRequest();
 
-            var cart = await _cartService.GetById(languageId, cartId);
+            var cart = await _cartService.GetById(request.LanguageId, cartId);
     
             return CreatedAtAction(nameof(GetById), new { id = cartId }, cart);
         }
 
         [HttpPut("{cartId}")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Update([FromRoute] int cartId, [FromForm] CartUpdateRequest request)
+        public async Task<IActionResult> Update([FromRoute] int cartId, [FromBody] CartUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -64,10 +65,20 @@ namespace FashionShop.BackendApi.Controllers
                 return BadRequest();
             return Ok();
         }
-        [HttpGet("{userId}/{languageId}")]
+        [HttpGet("user/{userId}/{languageId}")]
+        [Authorize]
         public async Task<IActionResult> GetAllByUserId(string languageId , string userId)
         {
             var ListCart = await _cartService.GetAllByUserId(languageId, userId);
+            if (ListCart == null)
+                return BadRequest("Cannot find list cart of user");
+            return Ok(ListCart);
+        }
+        [HttpGet("user/{userId}/product/{productId}/{languageId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAllByUserIdAndProductId(string languageId, string userId, int productId)
+        {
+            var ListCart = await _cartService.FindCartByProductIdOfUser(languageId, userId, productId);
             if (ListCart == null)
                 return BadRequest("Cannot find list cart of user");
             return Ok(ListCart);

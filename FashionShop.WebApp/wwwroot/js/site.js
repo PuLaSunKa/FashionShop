@@ -24,8 +24,7 @@
                 type: "POST",
                 url: "/" + culture + '/Cart/AddToCart',
                 data: {
-                    id: id,
-                    languageId: culture,
+                    productId: id,
                     quatity: 1
                 },
                 success: function (res) {
@@ -43,7 +42,7 @@
         // Write your JavaScript code.
         $('body').on('click', '.btn-add-to-cart', function (e) {
             e.preventDefault();
-            const culture = $('#hidCulture').val(); 
+            const culture = $('#hidCulture').val();
             const quatity = $('#idquatity').val();
             const id = $(this).data('id');
             $.ajax({

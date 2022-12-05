@@ -29,7 +29,12 @@ namespace FashionShop.WebApp.Controllers
             _userApiClient = userApiClient;
             _configuration = configuration;
         }
-
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return View();
+        }
         [HttpGet]
         public IActionResult Login()
         {
