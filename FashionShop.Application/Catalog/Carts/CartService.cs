@@ -86,6 +86,7 @@ namespace FashionShop.Application.Catalog.Carts
             var image = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
             return await query.Select(x => new CartVm()
             {
+                Id = x.c.Id,
                 ProductId = productId,
                 Quantity = x.c.Quantity,
                 Description = productTranslation.Description,

@@ -119,7 +119,6 @@ namespace FashionShop.WebApp.Controllers
             
             var product = await _productApiClient.GetById(productId, culture);
             int sl;
-
             var findCart = await _cartApiClient.FindCartByProductIdOfUser(culture, userId, productId);           
             if (findCart == null)
             {
@@ -133,6 +132,7 @@ namespace FashionShop.WebApp.Controllers
                 }
                 var request = new CartCreateRequest()
                 {
+                    DateCreated = DateTime.Now,
                     LanguageId = culture,
                     Quantity = sl,
                     UserId = userId,

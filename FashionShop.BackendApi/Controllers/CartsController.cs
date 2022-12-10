@@ -1,4 +1,5 @@
 ﻿using FashionShop.Application.Catalog.Carts;
+using FashionShop.Data.Entities;
 using FashionShop.ViewModels.Catalog.Carts;
 using FashionShop.ViewModels.Catalog.Posts;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,7 @@ namespace FashionShop.BackendApi.Controllers
         [HttpPost]
         [Consumes("multipart/form-data")]
         [Authorize]
-        public async Task<IActionResult> Create([FromBody] CartCreateRequest request)
+        public async Task<IActionResult> Create([FromForm] CartCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -76,11 +77,9 @@ namespace FashionShop.BackendApi.Controllers
         }
         [HttpGet("user/{userId}/product/{productId}/{languageId}")]
         [Authorize]
-        public async Task<IActionResult> GetAllByUserIdAndProductId(string languageId, string userId, int productId)
+        public async Task<IActionResult> FindCartByProductIdOfUser(string languageId, string userId, int productId)
         {
             var ListCart = await _cartService.FindCartByProductIdOfUser(languageId, userId, productId);
-            if (ListCart == null)
-                return BadRequest("Cannot find list cart of user");
             return Ok(ListCart);
         }
     }

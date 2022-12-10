@@ -63,7 +63,7 @@ namespace FashionShop.ApiIntegration
 
         public async Task<CartVm> FindCartByProductIdOfUser(string languageId, string userId, int productId)
         {
-            return await GetAsync<CartVm>($"/api/carts/user/{userId}/product/{productId}/{languageId}/");
+            return  await GetAsync<CartVm>($"/api/carts/user/{userId}/product/{productId}/{languageId}/");
         }
 
         public async Task<CartVm> GetById(string languageId, int id)
