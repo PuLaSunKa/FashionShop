@@ -32,7 +32,7 @@ namespace FashionShop.WebApp.Controllers
             });
         }
 
-        public async Task<IActionResult> Category(int id, string culture, int page = 1)
+        /*public async Task<IActionResult> Category(int id, string culture, int page = 1)
         {
             var products = await _productApiClient.GetPagings(new GetManageProductPagingRequest()
             {
@@ -46,7 +46,25 @@ namespace FashionShop.WebApp.Controllers
                 Category = await _categoryApiClient.GetById(culture, id),
                 Products = products
             }); ;
+        }*/
+
+        public async Task<IActionResult> Category(int id, string culture, int page = 1)
+        {
+            var products = await _productApiClient.GetPagings(new GetManageProductPagingRequest()
+            {
+                CategoryId = id,
+                PageIndex = page,
+                LanguageId = culture,
+                PageSize = 10
+            }) ;
+
+            return View(new ProductCategoryViewModel()
+            {
+                Category = await _categoryApiClient.GetById(culture, id),
+                Products = products
+            });
         }
+
 
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 8)
         {
