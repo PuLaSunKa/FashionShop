@@ -6,8 +6,9 @@ namespace FashionShop.ViewModels.Sales
 {
     public class OrderDetailVm
     {
-        public int ProductId { get; set; }
-
-        public int Quantity { get; set; }
+        public int OrderId { set; get; }
+        public int ProductId { set; get; }
+        public int Quantity { set; get; }
+        public decimal Price { set; get; }
     }
 }

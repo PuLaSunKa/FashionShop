@@ -3,6 +3,7 @@ using FashionShop.Application.Catalog.Categories;
 using FashionShop.Application.Catalog.Posts;
 using FashionShop.Application.Catalog.Products;
 using FashionShop.Application.Common;
+using FashionShop.Application.Sale;
 using FashionShop.Application.System.Languages;
 using FashionShop.Application.System.Roles;
 using FashionShop.Application.System.Users;
@@ -52,6 +53,7 @@ namespace FashionShop.BackendApi
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IContactService, ContactService>();
             services.AddTransient<ICartService, CartService>();
+            services.AddTransient<IOrderService, OrderService>();
 
 
             //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();

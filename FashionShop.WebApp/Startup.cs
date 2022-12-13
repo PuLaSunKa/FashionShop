@@ -77,6 +77,7 @@ namespace FashionShop.WebApp
             services.AddTransient<IContactApiClient, ContactApiClient>();
             services.AddTransient<IPostApiClient, PostApiClient>();
             services.AddTransient<ICartApiClient, CartApiClient>();
+            services.AddTransient<IOrderApiClient, OrderApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

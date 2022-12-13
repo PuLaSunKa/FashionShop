@@ -11,6 +11,6 @@ namespace FashionShop.WebApp.Models
     {
         public List<CartItemViewModel>? CartItems { get; set; }
 
-        public CheckoutRequest CheckoutModel { get; set; }
+        public OderCreateRequest CheckoutModel { get; set; }
     }
 }

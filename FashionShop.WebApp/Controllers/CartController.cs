@@ -15,20 +15,22 @@ namespace FashionShop.WebApp.Controllers
     {
 
         private readonly IProductApiClient _productApiClient;
-        /*
+        private readonly IOrderApiClient _orderApiClient;
         private readonly IConfiguration _configuration;
         private readonly IUserApiClient _userApiClient;
         private readonly ICartApiClient _cartApiClient;
-        */
-        public CartController(IProductApiClient productApiClient/*,
+      
+        public CartController(IProductApiClient productApiClient,
             IUserApiClient userApiClient,
             IConfiguration configuration,
-            ICartApiClient cartApiClient*/)
+            ICartApiClient cartApiClient,
+            IOrderApiClient orderApiClient)
         {
             _productApiClient = productApiClient;
-            /*_userApiClient = userApiClient;
+            _userApiClient = userApiClient;
             _configuration = configuration;
-            _cartApiClient = cartApiClient;*/
+            _cartApiClient = cartApiClient;
+            _orderApiClient = orderApiClient;
         }
         public async Task<IActionResult> Index()
         {
@@ -41,8 +43,9 @@ namespace FashionShop.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout(CheckoutViewModel request)
+        public async Task<IActionResult> Checkout(CheckoutViewModel request)
         {
+            var userId = User.FindFirstValue(ClaimTypes.Sid);
             var model = GetCheckoutViewModel();
             var orderDetails = new List<OrderDetailVm>();
             foreach (var item in model.CartItems)
@@ -50,20 +53,28 @@ namespace FashionShop.WebApp.Controllers
                 orderDetails.Add(new OrderDetailVm()
                 {
                     ProductId = item.ProductId,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
+                    Price = item.Price
                 });
             }
-            var checkoutRequest = new CheckoutRequest()
+            var checkoutRequest = new OderCreateRequest()
             {
                 Address = request.CheckoutModel.Address,
                 Name = request.CheckoutModel.Name,
                 Email = request.CheckoutModel.Email,
                 PhoneNumber = request.CheckoutModel.PhoneNumber,
-                OrderDetails = orderDetails
+                OrderDetails = orderDetails,
+                UserId = userId,
             };
-            //TODO: Add to API
-            TempData["SuccessMsg"] = "Order puschased successful";
-            return View(model);
+            var result = await _orderApiClient.CreateOrder(checkoutRequest);
+            if (result)
+            {
+                TempData["SuccessMsg"] = "Đặt hàng thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Có lỗi xảy ra");
+            return View(request);
         }
 
         [HttpGet]
@@ -133,14 +144,15 @@ namespace FashionShop.WebApp.Controllers
 
         private CheckoutViewModel GetCheckoutViewModel()
         {
+
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
             List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
             if (session != null)
-                currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);            
+                currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);          
             var checkoutVm = new CheckoutViewModel()
             {
                 CartItems = currentCart,
-                CheckoutModel = new CheckoutRequest()
+                CheckoutModel = new OderCreateRequest()
             };
             return checkoutVm;
         }
