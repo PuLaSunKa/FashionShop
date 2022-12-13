@@ -70,7 +70,7 @@
                     var amount = item.price * item.quantity;
                     html += "<tr>"
                         + "<td class=\"product_remove\"><button class=\"btn btn-danger btn-remove\" type=\"button\" data-id=\"" + item.productId + "\"><i class=\"fa fa - trash - o\"></i></button></td>"
-                        + "<td class=\"product_thumb\"><a href=\"#\"><img src=\"" + $('#hidBaseAddress').val() + item.image + "\" alt=\"\"></a></td>"
+                        + "<td class=\"product_thumb\"><a href=\"#\"><img style=\"width:40%\" src=\"" + $('#hidBaseAddress').val() + item.image + "\" alt=\"\"></a></td>"
                         + "<td><a href=\"#\">" + item.description + "</a></td >"
                         + "<td class=\"product-price\" >" + numberWithCommas(item.price) + "</td >"
                         + "<td><div class=\"input-append\">"
