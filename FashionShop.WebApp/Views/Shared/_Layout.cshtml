@@ -52,7 +52,7 @@
             </div>
             <div class="cart_area">
                 <div class="cart_link">
-                    <a href="@Url.ActionLink("Index","Cart")"><i class="fa fa-shopping-basket"></i><span id="lbl_number_items_header">0</span> sản phẩm</a>
+                    <a href="@Url.ActionLink("Index","Cart")"><i class="fa fa-shopping-basket"></i><span id="lbl_number_of_items">0</span> sản phẩm</a>
                 </div>
             </div>
             <div id="menu" class="text-left ">
@@ -78,8 +78,8 @@
                         @if (User.Identity.IsAuthenticated){
                             <ul class="sub-menu">
 
-                                <li><a href="/@culture/Account/Logout">Thông tin</a></li>
-                                <li><a href="/@culture/Account/Logout">Đơn hàng</a></li>
+                                @*<li><a href="/@culture/Account/Logout">Thông tin</a></li>*@
+                                <li><a href="/@culture/Cart/Checkout">Đơn hàng</a></li>
                                 <form action="/@culture/Account/Logout" method="post">
                                     <button id="logout" type="submit" style="border:unset;display: block;padding: 0;background: none;">
                                         <span><localize>Đăng Xuất</localize></span>

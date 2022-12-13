@@ -84,7 +84,7 @@
                 });
                 $('#cart_body').html(html);
                 $('#lbl_number_of_items').text(res.length);
-                $('#lbl_total').text(numberWithCommas(total));
+                $('.lbl_total').text(numberWithCommas(total));
             }
         });
     }
