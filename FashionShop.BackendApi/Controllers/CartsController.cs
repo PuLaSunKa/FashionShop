@@ -27,9 +27,8 @@ namespace FashionShop.BackendApi.Controllers
         }
 
         [HttpPost]
-        [Consumes("multipart/form-data")]
         [Authorize]
-        public async Task<IActionResult> Create([FromForm] CartCreateRequest request)
+        public async Task<IActionResult> Create([FromBody] CartCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -46,6 +45,7 @@ namespace FashionShop.BackendApi.Controllers
 
         [HttpPut("{cartId}")]
         [Consumes("multipart/form-data")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int cartId, [FromBody] CartUpdateRequest request)
         {
             if (!ModelState.IsValid)

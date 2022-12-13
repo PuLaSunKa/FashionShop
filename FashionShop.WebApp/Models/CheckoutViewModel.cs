@@ -9,7 +9,7 @@ namespace FashionShop.WebApp.Models
 {
     public class CheckoutViewModel
     {
-        public List<CartVm>? CartItems { get; set; }
+        public List<CartItemViewModel>? CartItems { get; set; }
 
         public CheckoutRequest CheckoutModel { get; set; }
     }

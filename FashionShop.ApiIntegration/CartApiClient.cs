@@ -2,8 +2,11 @@
 using FashionShop.ViewModels.Catalog.Carts;
 using FashionShop.ViewModels.Catalog.Posts;
 using FashionShop.ViewModels.Catalog.Products;
+using FashionShop.ViewModels.Common;
+using FashionShop.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,24 +33,19 @@ namespace FashionShop.ApiIntegration
 
         public async Task<bool> CreateCart(CartCreateRequest request)
         {
-            var sessions = _httpContextAccessor
-                .HttpContext
-            .Session
-                .GetString(SystemConstants.AppSettings.Token);
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.Token);
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var requestContent = new MultipartFormDataContent();
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"/api/carts/", httpContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<bool>(result);
 
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.UserId) ? "" : request.UserId.ToString()), "userId");
-            requestContent.Add(new StringContent(request.Quantity.ToString()), "quantity");
-            requestContent.Add(new StringContent(request.Price.ToString()), "price");
-            requestContent.Add(new StringContent(request.ProductId.ToString()), "productId");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.LanguageId) ? "" : request.LanguageId.ToString()), "languageId");
-
-            var response = await client.PostAsync($"/api/carts/", requestContent);
-            return response.IsSuccessStatusCode;
+            return JsonConvert.DeserializeObject<bool>(result);
         }
 
         public async Task<bool> DeleteCart(int CartId)

@@ -24,8 +24,8 @@
                 type: "POST",
                 url: "/" + culture + '/Cart/AddToCart',
                 data: {
-                    productId: id,
-                    quatity: 1
+                    id: id,
+                    languageId: culture
                 },
                 success: function (res) {
                     $('#lbl_number_items_header').text(res.length);
