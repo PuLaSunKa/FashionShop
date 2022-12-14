@@ -75,14 +75,15 @@ namespace FashionShop.Application.Sale
         public async Task<PagedResult<OrderVm>> GetAllPaging(GetOrderPagingRequest request)
         {
             var query = from c in _context.Orders
-                        join ct in _context.OrderDetails on c.Id equals ct.OrderId
-                        select new { c, ct };
+                        //join ct in _context.OrderDetails on c.Id equals ct.OrderId
+                        select new { c/*, ct*/ };
             int totalRow = await query.CountAsync();
 
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => new OrderVm()
                 {
+                    Id = x.c.Id,
                     Name = x.c.ShipName,
                     Address = x.c.ShipAddress,
                     Email = x.c.ShipEmail,

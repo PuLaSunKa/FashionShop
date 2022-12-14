@@ -43,8 +43,8 @@
                                     <span class="day">@item.DateCreate.Day</span>
                                     <span class="month">/ Tháng @item.DateCreate.Month</span>
                                 </div>
-                                <h3 class="post_title"><a href="@Url.Action("ChiTietBaiViet", "Website")">@item.Title</a></h3>
-                                <p class="post_desc"> @Html.Raw(item.Description)</p>
+                                <h3 class="post_title"><a href="@Url.Action("Details", "Post", new{ id= item.Id})">@item.Title</a></h3>
+                                @*<p class="post_desc"> @Html.Raw(item.Description)</p>*@
                                 <a class="read_more" href="@Url.Action("Details", "Post", new{ id= item.Id})">Chi Tiết</a>
                                 <div class="post_meta">
                                     <span>Đăng bởi </span>

@@ -18,7 +18,7 @@
                     <ul>
                         <li><a href="@Url.Action("Index", "Home")">Trang Chủ</a></li>
                         <li>/</li>
-                        <li>Giỏ Hàng</li>
+                        <li>Đặt hàng</li>
                     </ul>
                 </div>
             </div>
@@ -84,7 +84,7 @@ else
                 </div>
             </div>
 
-            <form class="form-horizontal" action="/@culture/Cart/Checkout" method="post">
+            @*<form class="form-horizontal" action="/@culture/Cart/Checkout" method="post">
                 <div class="control-group">
                     <label class="control-label" for="inputCountry">Name </label>
                     <div class="controls">
@@ -117,7 +117,29 @@ else
                         <button type="submit" class="btn">Purchase </button>
                     </div>
                 </div>
-            </form>
+            </form>*@
         </div>
     </div>
+
+    <div class="row">
+    <div class="col-md-12">
+      <form action="/@culture/Cart/Checkout" method="post" class="frm">
+        <h3> Đặt hàng </h3>
+          <label for="name">Họ tên:</label>
+          <input type="text"  id="inputCountry" asp-for="CheckoutModel.Name">
+        
+          <label for="email">Email:</label>
+          <input type="email" id="inputCountry" asp-for="CheckoutModel.Address">
+       
+          <label for="address">Địa chỉ:</label>
+          <input type="text" id="inputCountry" asp-for="CheckoutModel.Email">
+        
+        <label for="phone-number">Số điện thoại:</label>
+          <input type="text" id="inputCountry" asp-for="CheckoutModel.PhoneNumber">
+        
+        <button class="btn-tt" type="submit">Đặt hàng</button>
+        
+       </form>
+        </div>
+      </div>
 }

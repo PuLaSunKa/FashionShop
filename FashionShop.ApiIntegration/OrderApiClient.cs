@@ -66,7 +66,7 @@ namespace FashionShop.ApiIntegration
 
         public async Task<PagedResult<OrderVm>> GetPagings(GetOrderPagingRequest request)
         {
-            var data = await GetAsync<PagedResult<OrderVm>>(
+             var data = await GetAsync<PagedResult<OrderVm>>(
                 $"/api/Orders/paging?pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}");
 

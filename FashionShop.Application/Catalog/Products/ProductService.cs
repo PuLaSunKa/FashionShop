@@ -138,10 +138,10 @@ namespace FashionShop.Application.Catalog.Products
             {
                 var query = from p in _context.Products
                             join pt in _context.ProductTranslations on p.Id equals pt.ProductId
-                            //join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
-                            //from pi in ppi.DefaultIfEmpty()
-                            where pt.LanguageId == request.LanguageId //&& pi.IsDefault == true
-                            select new { p, pt/*, pi*/ };
+                            join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                            from pi in ppi.DefaultIfEmpty()
+                            where pt.LanguageId == request.LanguageId && pi.IsDefault == true
+                            select new { p, pt, pi };
                 int totalRow = await query.CountAsync();
                 if (!string.IsNullOrEmpty(request.Keyword))
                     query = query.Where(x => x.pt.Name.Contains(request.Keyword));
@@ -159,7 +159,7 @@ namespace FashionShop.Application.Catalog.Products
                         Price = x.p.Price,
                         Stock = x.p.Stock,
                         ViewCount = x.p.ViewCount,
-                        //ThumbnailImage = x.pi.ImagePath
+                        ThumbnailImage = x.pi.ImagePath
                     }).ToListAsync();
 
                 //4. Select and projection
@@ -180,10 +180,10 @@ namespace FashionShop.Application.Catalog.Products
                             from pic in ppic.DefaultIfEmpty()
                             join c in _context.Categories on pic.CategoryId equals c.Id into picc
                             from c in picc.DefaultIfEmpty()
-                            //join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
-                            //from pi in ppi.DefaultIfEmpty()
-                            where pt.LanguageId == request.LanguageId //&& pi.IsDefault == true
-                            select new { p, pt, pic/*, pi */};
+                            join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                            from pi in ppi.DefaultIfEmpty()
+                            where pt.LanguageId == request.LanguageId && pi.IsDefault == true
+                            select new { p, pt, pic, pi };
                 //2. filter
                 if (!string.IsNullOrEmpty(request.Keyword))
                     query = query.Where(x => x.pt.Name.Contains(request.Keyword));
@@ -208,7 +208,7 @@ namespace FashionShop.Application.Catalog.Products
                         Price = x.p.Price,
                         Stock = x.p.Stock,
                         ViewCount = x.p.ViewCount,
-                        //ThumbnailImage = x.pi.ImagePath
+                        ThumbnailImage = x.pi.ImagePath
                     }).ToListAsync();
 
                 //4. Select and projection

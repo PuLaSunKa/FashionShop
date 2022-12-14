@@ -9,6 +9,5 @@ namespace FashionShop.ViewModels.Sales
 {
     public class GetOrderPagingRequest: PagingRequestBase
     {
-        public string? LanguageId { get; set; }
     }
 }
